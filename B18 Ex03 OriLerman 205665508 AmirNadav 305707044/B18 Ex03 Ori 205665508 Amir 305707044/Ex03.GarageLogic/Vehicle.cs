@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ex03.GarageLogic
 {
-    enum eRepairState { InShop, Fixed, Payed }
+    public enum eRepairState { InShop, Fixed, Payed }
     public abstract class Vehicle
     {
         protected readonly string m_Model;
@@ -31,15 +31,19 @@ namespace Ex03.GarageLogic
                 m_EnergyRatio = value;
             }
         }
-        protected eRepairState RepairState
+        public eRepairState RepairState
         {
             get { return m_RepairState; }
-            set
+            protected set
             {
                 m_RepairState = value;
             }
         }
-        protected KeyValuePair<string,Vehicle> ToPair()
+        internal string LicenseNumber
+        {
+            get { return m_LicenseNumber; }
+        }
+        public KeyValuePair<string,Vehicle> ToPair()
         {
             KeyValuePair<string, Vehicle> returnedPair = new KeyValuePair<string, Vehicle>(m_LicenseNumber, this);
             return returnedPair;
