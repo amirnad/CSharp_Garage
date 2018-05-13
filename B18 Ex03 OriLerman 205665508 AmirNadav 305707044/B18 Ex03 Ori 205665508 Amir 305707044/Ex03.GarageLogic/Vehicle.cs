@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Ex03.GarageLogic
 {
     enum eRepairState { InShop, Fixed, Payed }
-     abstract class Vehicle
+    public abstract class Vehicle
     {
         protected readonly string m_Model;
         protected readonly string m_LicenseNumber;
