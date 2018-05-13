@@ -7,15 +7,22 @@ using System.Threading.Tasks;
 namespace Ex03.GarageLogic
 {
     enum eRepairState { InShop, Fixed, Payed }
-    abstract class Vehicle
+     abstract class Vehicle
     {
-        protected readonly string m_Model;//initailized in sons
-        protected readonly string m_LicenseNumber;//initailized in sons
+        protected readonly string m_Model;
+        protected readonly string m_LicenseNumber;
         private float m_EnergyRatio = 0;
-        protected List<Wheel> m_Wheels = null;
-        private OwnerDetails m_OwnerDetails = new OwnerDetails();
+        protected List<Wheel> m_Wheels=null;//initailizes in son
+        protected OwnerDetails m_OwnerDetails;
         private eRepairState m_RepairState = eRepairState.InShop;
 
+        public Vehicle(string io_Model,string io_LicenseNumber,OwnerDetails io_OwnerDetails,List<Wheel> io_Wheels)
+        {
+            m_Model = io_Model;
+            m_LicenseNumber = io_LicenseNumber;
+            m_OwnerDetails = io_OwnerDetails;
+            m_Wheels = io_Wheels;
+        }
         protected float EnergyRatio
         {
             get { return m_EnergyRatio; }
@@ -23,7 +30,19 @@ namespace Ex03.GarageLogic
             {
                 m_EnergyRatio = value;
             }
-
+        }
+        protected eRepairState RepairState
+        {
+            get { return m_RepairState; }
+            set
+            {
+                m_RepairState = value;
+            }
+        }
+        protected KeyValuePair<string,Vehicle> ToPair()
+        {
+            KeyValuePair<string, Vehicle> returnedPair = new KeyValuePair<string, Vehicle>(m_LicenseNumber, this);
+            return returnedPair;
         }
 
     }
@@ -33,8 +52,8 @@ namespace Ex03.GarageLogic
         {
             Vehicle vh;
 
-            Wheel wh = new Wheel();
-            OwnerDetails od = new OwnerDetails();
+            Wheel wh = new Wheel("ori",12,12);
+            OwnerDetails od = new OwnerDetails("ol","052");
 
         }
 
