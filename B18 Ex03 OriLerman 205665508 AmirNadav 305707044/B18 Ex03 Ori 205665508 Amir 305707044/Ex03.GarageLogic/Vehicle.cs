@@ -31,15 +31,19 @@ namespace Ex03.GarageLogic
                 m_EnergyRatio = value;
             }
         }
-        protected eRepairState RepairState
+        public eRepairState RepairState
         {
             get { return m_RepairState; }
-            set
+            protected set
             {
                 m_RepairState = value;
             }
         }
-        protected KeyValuePair<string,Vehicle> ToPair()
+        internal string LicenseNumber
+        {
+            get { return m_LicenseNumber; }
+        }
+        public KeyValuePair<string,Vehicle> ToPair()
         {
             KeyValuePair<string, Vehicle> returnedPair = new KeyValuePair<string, Vehicle>(m_LicenseNumber, this);
             return returnedPair;

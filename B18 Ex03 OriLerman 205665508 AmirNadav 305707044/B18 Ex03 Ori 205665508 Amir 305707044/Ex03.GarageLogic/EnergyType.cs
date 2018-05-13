@@ -1,6 +1,7 @@
 ﻿namespace Ex03.GarageLogic
 {
-    internal class EnergyType
+    public abstract class EnergyType
     {
+        public abstract float CalculateRatio();
     }
 }
