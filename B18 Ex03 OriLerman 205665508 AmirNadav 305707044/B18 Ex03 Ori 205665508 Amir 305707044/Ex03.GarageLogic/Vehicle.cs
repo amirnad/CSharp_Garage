@@ -54,12 +54,45 @@ namespace Ex03.GarageLogic
     {
         public static void Main()
         {
-            Vehicle vh;
+            VehicleInitialDetails setup = CreateNewSetup();
+
+            Vehicle myCar = Factory.createNewVehicle(ref setup);
 
             Wheel wh = new Wheel("ori",12,12);
+            List<Wheel> l = new List<Wheel>();
+            Vehicle vh = new Truck(true,12,new Fuel(Fuel.eFuelType.Octan95,12,14),"o","123",new OwnerDetails("ori","052"),l);
             OwnerDetails od = new OwnerDetails("ol","052");
+            DataStructure ds = new DataStructure();
+
+            ds.Add(vh);
+
+            
 
         }
 
+        private static VehicleInitialDetails CreateNewSetup()
+        {
+            VehicleInitialDetails setup = new VehicleInitialDetails();
+            List<VehicleInitialDetails.wheelsInfo> myWheels = new List<VehicleInitialDetails.wheelsInfo>();
+
+            myWheels.Add(new VehicleInitialDetails.wheelsInfo("pirelli", 14f));
+            myWheels.Add(new VehicleInitialDetails.wheelsInfo("pirelli", 14f));
+            myWheels.Add(new VehicleInitialDetails.wheelsInfo("pirelli", 14f));
+            myWheels.Add(new VehicleInitialDetails.wheelsInfo("pirelli", 14f));
+
+
+
+            setup.m_CarInfo.m_Color = Car.eCarColors.Black;
+            setup.m_CarInfo.m_NumberOfDoors = Car.eNumberOfDoors.Five;
+            setup.m_EnergyTypeInfo.engine = Factory.eSupportedEngines.Electric;
+            setup.m_LicensePlate = "12221C";
+            setup.m_Model = "323";
+            setup.m_EnergyTypeInfo.m_CurrentAmountEnergy = 6;
+            setup.m_ownerInfo.m_OwnerName = "ori";
+            setup.m_ownerInfo.m_OwnerPhone = "0523221702";
+            setup.m_WheelsInfoList = myWheels;
+            return setup;
+
+        }
     }
 }

@@ -13,6 +13,11 @@ namespace Ex03.GarageLogic
         private List<Vehicle> m_payedList = new List<Vehicle>();
         private List<Vehicle> m_InShopList = new List<Vehicle>();
 
+        public Vehicle search(string LicenseNumber)
+        {
+            Vehicle theOneWeLookFor = vehiclesDictionary[LicenseNumber];
+            return theOneWeLookFor;
+        }
         public void Add(Vehicle i_vehicle)
         {
             eRepairState repairState = i_vehicle.RepairState;
@@ -28,7 +33,6 @@ namespace Ex03.GarageLogic
             {
                 m_InShopList.Add(i_vehicle);
             }
-
             vehiclesDictionary.Add(i_vehicle.LicenseNumber, i_vehicle);
         }
         public void Remove(Vehicle i_vehicle)
@@ -49,6 +53,7 @@ namespace Ex03.GarageLogic
 
             vehiclesDictionary.Remove(i_vehicle.LicenseNumber);
         }
+
         public List<Vehicle> getFixedList()
         {
             return m_fixedList;
