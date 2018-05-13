@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ex03.GarageLogic
 {
-    class DataStructure
+    public class DataStructure
     {
         private Dictionary<String, Vehicle> vehiclesDictionary = new Dictionary<String, Vehicle>();
         private List<Vehicle> m_fixedList = new List<Vehicle>();
