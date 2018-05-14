@@ -31,13 +31,9 @@ namespace Ex03.GarageLogic
             {
                 m_CurrentBatteryHoursLeft += i_ElectricityHoursToAdd;
             }
-            else if (i_ElectricityHoursToAdd > 0)
-            {
-                m_CurrentBatteryHoursLeft = r_MaxBatteryHoursLeft;
-            }
             else
             {
-                throw new ArgumentOutOfRangeException();
+                throw new ValueOutOfRangeException(0,r_MaxBatteryHoursLeft - m_CurrentBatteryHoursLeft, "i_ElectricityHoursToAdd");
             }
         }
     }

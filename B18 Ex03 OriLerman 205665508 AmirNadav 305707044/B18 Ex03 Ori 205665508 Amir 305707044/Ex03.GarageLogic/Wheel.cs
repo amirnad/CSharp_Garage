@@ -25,8 +25,7 @@ namespace Ex03.GarageLogic
             }
             else
             {
-                //throw new ValueOutOfRangeException();/// add parameters when exeption ready
-                throw new ArgumentOutOfRangeException();
+                throw new ValueOutOfRangeException(0,r_MaxPsi-m_currPsi, "i_amountOfAir");
             }
         }
         public Wheel(string io_manufacturer,float io_MaxPsi,float io_currPsi)

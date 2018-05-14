@@ -37,8 +37,8 @@ namespace Ex03.GarageLogic
                 }
                 else
                 {
-                    //throw ValueOutOfRangeException;
-                    throw new ArgumentOutOfRangeException();
+                    
+                    throw new ValueOutOfRangeException(0,r_MaxFuelAmount-m_CurrentFuelAmount, "i_FuelAmountToAdd");
                 }
             }
             else
