@@ -40,6 +40,10 @@ namespace Ex03.GarageLogic
                 m_RepairState = value;
             }
         }
+        public EnergyType GetEnergyType
+        {
+            get { return m_EnergyType; }
+        }
         public abstract float VehicleMaxPressure
         {
             get;

@@ -20,6 +20,7 @@ namespace Ex03.ConsoleUI
             exists = gm.CheckIfVehicleExists("12221C");
             gm.ChangeVehicleRepairState("12221C", eRepairState.Fixed);
             gm.FillTyrePressure("12221C");
+            gm.RefuelVehicle("12221C", Fuel.eFuelType.Octan98, 30f);
 
         }
 
@@ -37,10 +38,10 @@ namespace Ex03.ConsoleUI
 
             setup.m_CarInfo.m_Color = Car.eCarColors.Black;
             setup.m_CarInfo.m_NumberOfDoors = Car.eNumberOfDoors.Five;
-            setup.m_EnergyTypeInfo.engine = Factory.eSupportedEngines.Fuel;
+            setup.m_EnergyTypeInfo.engine = Factory.eSupportedEngines.Electric;
             setup.m_LicensePlate = "12221C";
             setup.m_Model = "323";
-            setup.m_EnergyTypeInfo.m_CurrentAmountEnergy = 12f;
+            setup.m_EnergyTypeInfo.m_CurrentAmountEnergy = 2f;
             setup.m_ownerInfo.m_OwnerName = "ori";
             setup.m_ownerInfo.m_OwnerPhone = "0523221702";
             setup.m_WheelsInfoList = myWheels;

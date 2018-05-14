@@ -38,9 +38,19 @@ namespace Ex03.ConsoleUI
             Vehicle vehicleToWorkOn = m_garageDataStructure.search(io_LicenseNumber);
             vehicleToWorkOn.FillAirToMax();
         }
-        public void RefuelVehicle(string io_LicenseNumber, Fuel.eFuelType io_TypeOfFuel , float io_AmountToAdd)
+        public void RefuelVehicle(string io_LicenseNumber, Fuel.eFuelType io_TypeOfFuel, float io_AmountToAdd)
         {
             Vehicle vehicleToRefuel = m_garageDataStructure.search(io_LicenseNumber);
+            Fuel engineType = vehicleToRefuel.GetEnergyType as Fuel;
+            if (engineType != null)
+            {
+                engineType.Refuel(io_TypeOfFuel, io_AmountToAdd);
+            }
+            else
+            {
+                //exception
+                throw new ArgumentException("Exception Thrown - Invalid energy type - Vehicle.GetEnergyType == Electric");
+            }
 
         }
     }

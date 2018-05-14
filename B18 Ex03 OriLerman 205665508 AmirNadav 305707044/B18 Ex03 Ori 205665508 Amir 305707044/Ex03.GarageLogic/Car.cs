@@ -24,7 +24,6 @@ namespace Ex03.GarageLogic
                 return k_MaxCarPsi;
             }
         }
-
         public Car(eCarColors i_ChosenColor, eNumberOfDoors i_CarDoors, EnergyType o_TypeOfEnergy, string o_ModelName, string o_LicensePlate, OwnerDetails o_CarOwner, List<Wheel> o_Wheels) 
             : base(o_ModelName, o_LicensePlate,  o_CarOwner, o_Wheels)
         {
@@ -33,6 +32,5 @@ namespace Ex03.GarageLogic
             m_EnergyType = o_TypeOfEnergy;
             EnergyRatio = o_TypeOfEnergy.CalculateRatio();
         }
-
     }
 }
