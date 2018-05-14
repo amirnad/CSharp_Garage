@@ -12,9 +12,14 @@ namespace Ex03.GarageLogic
         private float m_currPsi;
         private readonly float r_MaxPsi;
         
-        internal void  fillAir(float i_amountOfAir)
+        public float CurrentPressure
         {
-            if(r_MaxPsi<m_currPsi+i_amountOfAir)
+            get { return m_currPsi; }
+        }
+
+        internal void fillAir(float i_amountOfAir)
+        {
+            if(m_currPsi + i_amountOfAir <= r_MaxPsi)
             {
                 m_currPsi += i_amountOfAir;
             }
@@ -28,7 +33,7 @@ namespace Ex03.GarageLogic
         {
             r_manufacturer = io_manufacturer;
             r_MaxPsi = io_MaxPsi;
-            m_currPsi = 0;
+            m_currPsi = io_currPsi;
         }
     }
 }

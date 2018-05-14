@@ -24,6 +24,7 @@ namespace Ex03.GarageLogic
         {
             public bool m_TruckCooled;
             public int m_TrunkVolume;
+            
         }
         public struct CarInfo
         {

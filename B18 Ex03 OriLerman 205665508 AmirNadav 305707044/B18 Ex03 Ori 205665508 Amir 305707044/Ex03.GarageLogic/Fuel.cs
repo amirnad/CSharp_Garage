@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ex03.GarageLogic
 {
-    internal class Fuel : EnergyType
+    public class Fuel : EnergyType
     {
         public enum eFuelType { Octan95, Octan96, Octan98, Soler }
 

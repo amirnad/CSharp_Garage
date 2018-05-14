@@ -12,11 +12,12 @@ namespace Ex03.GarageLogic
         protected readonly string m_Model;
         protected readonly string m_LicenseNumber;
         private float m_EnergyRatio = 0;
-        protected List<Wheel> m_Wheels=null;//initailizes in son
+        protected List<Wheel> m_Wheels = null;//initailizes in son
         protected OwnerDetails m_OwnerDetails;
         private eRepairState m_RepairState = eRepairState.InShop;
+        protected EnergyType m_EnergyType;
 
-        public Vehicle(string io_Model,string io_LicenseNumber,OwnerDetails io_OwnerDetails,List<Wheel> io_Wheels)
+        public Vehicle(string io_Model, string io_LicenseNumber, OwnerDetails io_OwnerDetails, List<Wheel> io_Wheels)
         {
             m_Model = io_Model;
             m_LicenseNumber = io_LicenseNumber;
@@ -34,65 +35,83 @@ namespace Ex03.GarageLogic
         public eRepairState RepairState
         {
             get { return m_RepairState; }
-            protected set
+            set
             {
                 m_RepairState = value;
+            }
+        }
+        public abstract float VehicleMaxPressure
+        {
+            get;
+        }
+        public void FillAirToMax()
+        {
+            float maxVehiclePsi = VehicleMaxPressure;
+            foreach(Wheel wheel in m_Wheels)
+            {
+                float currentWheelPsi = wheel.CurrentPressure;
+                wheel.fillAir(maxVehiclePsi - currentWheelPsi);
+
             }
         }
         internal string LicenseNumber
         {
             get { return m_LicenseNumber; }
         }
-        public KeyValuePair<string,Vehicle> ToPair()
+        public KeyValuePair<string, Vehicle> ToPair()
         {
             KeyValuePair<string, Vehicle> returnedPair = new KeyValuePair<string, Vehicle>(m_LicenseNumber, this);
             return returnedPair;
         }
 
     }
-    public class program
-    {
-        public static void Main()
-        {
-            VehicleInitialDetails setup = CreateNewSetup();
+    //public class program
+    //{
+    //    public static void Main()
+    //    {
+    //        VehicleInitialDetails setup = CreateNewSetup();
 
-            Vehicle myCar = Factory.createNewVehicle(ref setup);
+    //        Vehicle myCar = Factory.createNewVehicle(ref setup);
 
-            Wheel wh = new Wheel("ori",12,12);
-            List<Wheel> l = new List<Wheel>();
-            Vehicle vh = new Truck(true,12,new Fuel(Fuel.eFuelType.Octan95,12,14),"o","123",new OwnerDetails("ori","052"),l);
-            OwnerDetails od = new OwnerDetails("ol","052");
-            DataStructure ds = new DataStructure();
+    //        Wheel wh = new Wheel("ori", 12, 12);
+    //        List<Wheel> l = new List<Wheel>();
+    //        Vehicle vh = new Truck(true, 12, new Fuel(Fuel.eFuelType.Octan95, 12, 14), "o", "123", new OwnerDetails("ori", "052"), l);
+    //        OwnerDetails od = new OwnerDetails("ol", "052");
+    //        DataStructure ds = new DataStructure();
 
-            ds.Add(vh);
-
-            
-
-        }
-
-        private static VehicleInitialDetails CreateNewSetup()
-        {
-            VehicleInitialDetails setup = new VehicleInitialDetails();
-            List<VehicleInitialDetails.wheelsInfo> myWheels = new List<VehicleInitialDetails.wheelsInfo>();
-
-            myWheels.Add(new VehicleInitialDetails.wheelsInfo("pirelli", 14f));
-            myWheels.Add(new VehicleInitialDetails.wheelsInfo("pirelli", 14f));
-            myWheels.Add(new VehicleInitialDetails.wheelsInfo("pirelli", 14f));
-            myWheels.Add(new VehicleInitialDetails.wheelsInfo("pirelli", 14f));
+    //        garageManager gm = new garageManager();
+    //        bool exists = gm.CheckIfVehicleExists("12221C");
+    //        gm.AddNewVehicle(setup);
+    //        exists = gm.CheckIfVehicleExists("12221C");
+    //        gm.ChangeVehicleRepairState("12221C", eRepairState.Fixed);
+    //        gm.FillTyrePressure("12221C");
 
 
+    //    }
 
-            setup.m_CarInfo.m_Color = Car.eCarColors.Black;
-            setup.m_CarInfo.m_NumberOfDoors = Car.eNumberOfDoors.Five;
-            setup.m_EnergyTypeInfo.engine = Factory.eSupportedEngines.Electric;
-            setup.m_LicensePlate = "12221C";
-            setup.m_Model = "323";
-            setup.m_EnergyTypeInfo.m_CurrentAmountEnergy = 6;
-            setup.m_ownerInfo.m_OwnerName = "ori";
-            setup.m_ownerInfo.m_OwnerPhone = "0523221702";
-            setup.m_WheelsInfoList = myWheels;
-            return setup;
+    //    public static VehicleInitialDetails CreateNewSetup()
+    //    {
+    //        VehicleInitialDetails setup = new VehicleInitialDetails();
+    //        List<VehicleInitialDetails.wheelsInfo> myWheels = new List<VehicleInitialDetails.wheelsInfo>();
 
-        }
-    }
+    //        myWheels.Add(new VehicleInitialDetails.wheelsInfo("pirelli", 14f));
+    //        myWheels.Add(new VehicleInitialDetails.wheelsInfo("pirelli", 14f));
+    //        myWheels.Add(new VehicleInitialDetails.wheelsInfo("pirelli", 14f));
+    //        myWheels.Add(new VehicleInitialDetails.wheelsInfo("pirelli", 14f));
+
+
+
+    //        setup.m_CarInfo.m_Color = Car.eCarColors.Black;
+    //        setup.m_CarInfo.m_NumberOfDoors = Car.eNumberOfDoors.Five;
+    //        setup.m_EnergyTypeInfo.engine = Factory.eSupportedEngines.Electric;
+    //        setup.m_LicensePlate = "12221C";
+    //        setup.m_Model = "323";
+    //        setup.m_EnergyTypeInfo.m_CurrentAmountEnergy = 6;
+    //        setup.m_ownerInfo.m_OwnerName = "ori";
+    //        setup.m_ownerInfo.m_OwnerPhone = "0523221702";
+    //        setup.m_WheelsInfoList = myWheels;
+    //        return setup;
+
+    //    }
+    //}
 }
