@@ -18,6 +18,11 @@ namespace Ex03.GarageLogic
             Vehicle theOneWeLookFor = vehiclesDictionary[LicenseNumber];
             return theOneWeLookFor;
         }
+
+        public bool DoesVehicleExists(string o_LicenseNumber)
+        {
+            return vehiclesDictionary.ContainsKey(o_LicenseNumber);
+        }
         public void Add(Vehicle i_vehicle)
         {
             eRepairState repairState = i_vehicle.RepairState;

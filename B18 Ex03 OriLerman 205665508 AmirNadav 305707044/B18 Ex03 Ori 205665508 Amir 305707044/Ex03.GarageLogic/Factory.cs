@@ -93,11 +93,11 @@ namespace Ex03.GarageLogic
             if (i_RequiermentsForVehicle.m_EnergyTypeInfo.engine == eSupportedEngines.Electric)
             {
                 carEnergyType = new ElectricityEngine(i_RequiermentsForVehicle.m_EnergyTypeInfo.m_CurrentAmountEnergy,
-                                                             Motorcycle.k_MaxMotorcycleElectricHours);
+                                                             Car.k_MaxCarElectricHours);
             }
             else///fuel
             {
-                carEnergyType = new Fuel(Fuel.eFuelType.Octan96, i_RequiermentsForVehicle.m_EnergyTypeInfo.m_CurrentAmountEnergy, Motorcycle.k_MaxMotorcycleFuel);
+                carEnergyType = new Fuel(Fuel.eFuelType.Octan98, i_RequiermentsForVehicle.m_EnergyTypeInfo.m_CurrentAmountEnergy, Car.k_MaxCarFuel);
             }
 
             return new Car(i_RequiermentsForVehicle.m_CarInfo.m_Color,

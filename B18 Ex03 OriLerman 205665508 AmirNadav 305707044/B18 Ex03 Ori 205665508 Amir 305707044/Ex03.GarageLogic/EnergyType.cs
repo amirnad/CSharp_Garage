@@ -2,6 +2,7 @@
 {
     public abstract class EnergyType
     {
+
         public abstract float CalculateRatio();
     }
 }

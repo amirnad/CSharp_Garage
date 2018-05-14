@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ex03.GarageLogic
 {
-    class ElectricityEngine : EnergyType
+    public class ElectricityEngine : EnergyType
     {
         public enum eFuelType { Octan95, Octan96, Octan98, Soler }
 
@@ -18,7 +18,7 @@ namespace Ex03.GarageLogic
             return m_CurrentBatteryHoursLeft / r_MaxBatteryHoursLeft;
         }
 
-        public ElectricityEngine(float o_CurrentAmount,float o_MaxAmount)
+        public ElectricityEngine(float o_CurrentAmount, float o_MaxAmount)
         {
             m_CurrentBatteryHoursLeft = o_CurrentAmount;
             r_MaxBatteryHoursLeft = o_MaxAmount;
@@ -27,17 +27,13 @@ namespace Ex03.GarageLogic
 
         public void ReCharge(float i_ElectricityHoursToAdd)
         {
-            if(i_ElectricityHoursToAdd+m_CurrentBatteryHoursLeft<r_MaxBatteryHoursLeft)
+            if (i_ElectricityHoursToAdd + m_CurrentBatteryHoursLeft <= r_MaxBatteryHoursLeft)
             {
                 m_CurrentBatteryHoursLeft += i_ElectricityHoursToAdd;
             }
-            else if(i_ElectricityHoursToAdd>0)
-            {
-                m_CurrentBatteryHoursLeft = r_MaxBatteryHoursLeft;
-            }
             else
             {
-                throw new ArgumentOutOfRangeException();
+                throw new ValueOutOfRangeException(0,r_MaxBatteryHoursLeft - m_CurrentBatteryHoursLeft, "i_ElectricityHoursToAdd");
             }
         }
     }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ex03.GarageLogic
 {
-    internal class Fuel : EnergyType
+    public class Fuel : EnergyType
     {
         public enum eFuelType { Octan95, Octan96, Octan98, Soler }
 
@@ -37,13 +37,13 @@ namespace Ex03.GarageLogic
                 }
                 else
                 {
-                    //throw ValueOutOfRangeException;
-                    throw new ArgumentOutOfRangeException();
+                    
+                    throw new ValueOutOfRangeException(0,r_MaxFuelAmount-m_CurrentFuelAmount, "i_FuelAmountToAdd");
                 }
             }
             else
             {
-                throw new ArgumentException();
+                throw new ArgumentException(string.Format("the {0} is inValid For this Vehicle", i_Type), i_Type.ToString());
             }
         }
 
