@@ -49,7 +49,7 @@ namespace Ex03.ConsoleUI
             else
             {
                 //exception
-                throw new ArgumentException("Exception Thrown - Invalid energy type - Vehicle.GetEnergyType == Electric");
+                throw new ArgumentException(string.Format("The refueld car: {0} should be only fuel (and Not Electric) ",io_LicenseNumber),io_LicenseNumber);
             }
 
         }

@@ -43,7 +43,7 @@ namespace Ex03.GarageLogic
             }
             else
             {
-                throw new ArgumentException();
+                throw new ArgumentException(string.Format("the {0} is inValid For this Vehicle", i_Type), i_Type.ToString());
             }
         }
 
