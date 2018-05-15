@@ -14,7 +14,6 @@ namespace Ex03.GarageLogic
         public const float k_MaxMotorcycleFuel = 6;
         private eLicenseTypes m_licenseType;
         private int m_engineVolume;
- //       private EnergyType m_MotorcycleEnergyType;
 
         public override float VehicleMaxPressure
         {
@@ -30,7 +29,22 @@ namespace Ex03.GarageLogic
             m_licenseType = o_LicenseType;
             m_engineVolume = o_EngineVolume;
             m_EnergyType = o_TypeOfEnergy;
-            EnergyRatio = o_TypeOfEnergy.CalculateRatio();
+        }
+
+        public override string ToString()
+        {
+            StringBuilder returnedString = new StringBuilder();
+            returnedString.AppendFormat(base.ToString());
+            returnedString.AppendFormat(m_OwnerDetails.ToString());
+            returnedString.AppendFormat("Vehicle Type: Motorcycle{0}\tLicense Type: {1}\tEngine Volume: {2} cc{0}", Environment.NewLine, m_licenseType, m_engineVolume);
+            returnedString.AppendFormat(m_EnergyType.ToString());
+            returnedString.AppendFormat("Wheels:{0}", Environment.NewLine);
+            foreach (Wheel wheel in m_Wheels)
+            {
+                returnedString.AppendFormat(wheel.ToString());
+            }
+
+            return returnedString.ToString();
         }
     }
 }

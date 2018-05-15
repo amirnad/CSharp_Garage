@@ -8,13 +8,18 @@ namespace Ex03.GarageLogic
 {
     public class OwnerDetails
     {
-        private string m_name;
-        private string m_phone;
+        private string m_Name;
+        private string m_PhoneNumber;
 
-        public OwnerDetails(string io_name, string io_Phone)
+        public OwnerDetails(string i_Name, string i_PhoneNumber)
         {
-            m_name = io_name;
-            m_phone = io_Phone;
+            m_Name = i_Name;
+            m_PhoneNumber = i_PhoneNumber;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("Owner{0}\tName: {1}{0}\tPhone Number: {2}{0}", Environment.NewLine, m_Name, m_PhoneNumber);
         }
     }
 }

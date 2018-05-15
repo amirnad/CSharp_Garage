@@ -15,12 +15,16 @@ namespace Ex03.ConsoleUI
             VehicleInitialDetails setup = CreateNewSetup();
 
             GarageManager gm = new GarageManager();
+            Console.WriteLine(gm.GetLicenseNumberList(GarageManager.eFiltering.NoFilter).ToString());
             bool exists = gm.CheckIfVehicleExists("12221C");
             gm.AddNewVehicle(setup);
             exists = gm.CheckIfVehicleExists("12221C");
             gm.ChangeVehicleRepairState("12221C", eRepairState.Fixed);
             gm.FillTyrePressure("12221C");
-            gm.RefuelVehicle("12221C", Fuel.eFuelType.Octan98, 30f);
+            gm.RefuelGasVehicle("12221C", Fuel.eFuelType.Octan98, 20f);
+          //  Console.WriteLine(gm.GetAllDataOnVehicle("12221C"));
+
+            // gm.RechargeElectricVehicle("12221C", 30f);
 
         }
 
@@ -33,18 +37,19 @@ namespace Ex03.ConsoleUI
             myWheels.Add(new VehicleInitialDetails.wheelsInfo("pirelli", 14f));
             myWheels.Add(new VehicleInitialDetails.wheelsInfo("pirelli", 14f));
             myWheels.Add(new VehicleInitialDetails.wheelsInfo("pirelli", 14f));
-
-
-
+            
             setup.m_CarInfo.m_Color = Car.eCarColors.Black;
             setup.m_CarInfo.m_NumberOfDoors = Car.eNumberOfDoors.Five;
-            setup.m_EnergyTypeInfo.engine = Factory.eSupportedEngines.Electric;
+            setup.m_EnergyTypeInfo.engine = Factory.eSupportedEngines.Fuel;
             setup.m_LicensePlate = "12221C";
             setup.m_Model = "323";
-            setup.m_EnergyTypeInfo.m_CurrentAmountEnergy = 2f;
+            setup.m_EnergyTypeInfo.m_CurrentAmountEnergy = 20f;
             setup.m_ownerInfo.m_OwnerName = "ori";
             setup.m_ownerInfo.m_OwnerPhone = "0523221702";
             setup.m_WheelsInfoList = myWheels;
+
+
+
             return setup;
 
         }

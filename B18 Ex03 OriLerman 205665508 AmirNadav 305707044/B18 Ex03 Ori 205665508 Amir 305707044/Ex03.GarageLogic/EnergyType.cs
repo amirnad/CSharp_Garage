@@ -3,6 +3,6 @@
     public abstract class EnergyType
     {
 
-        public abstract float CalculateRatio();
+        public abstract void CalculateRatio();
     }
 }

@@ -8,6 +8,7 @@ namespace Ex03.ConsoleUI
 {
     public class GarageManager
     {
+        public enum eFiltering { NoFilter, InShop, Fixed, Payed }
         private DataStructure m_garageDataStructure = new DataStructure();
 
         public bool CheckIfVehicleExists(string i_LicenseNumber)
@@ -21,7 +22,34 @@ namespace Ex03.ConsoleUI
             Vehicle theVehicleToAdd = Factory.createNewVehicle(ref i_detailsForCreatingCar);
             m_garageDataStructure.Add(theVehicleToAdd);
         }
+        public string GetLicenseNumberList(eFiltering i_HowToFilter)
+        {
+            StringBuilder returnedString = new StringBuilder();
+            switch (i_HowToFilter)
+            {
+                case eFiltering.NoFilter:
 
+                    returnedString.AppendFormat("All Vehicles in the Garage:{0}", Environment.NewLine);
+                    returnedString.AppendFormat("\t{0}", m_garageDataStructure.GetListOfLicenseNumbers(eRepairState.AllStates));
+                    break;
+                case eFiltering.InShop:
+                    returnedString.AppendFormat("Vehicles that are waiting for repair:{0}", Environment.NewLine);
+                    returnedString.AppendFormat("\t{0}", m_garageDataStructure.GetListOfLicenseNumbers(eRepairState.InShop));
+                    break;
+                case eFiltering.Fixed:
+                    returnedString.AppendFormat("Vehicles that are already fixed:{0}", Environment.NewLine);
+                    returnedString.AppendFormat("\t{0}", m_garageDataStructure.GetListOfLicenseNumbers(eRepairState.Fixed));
+                    break;
+                case eFiltering.Payed:
+                    returnedString.AppendFormat("Vehicles that are already payed:{0}", Environment.NewLine);
+                    returnedString.AppendFormat("\t{0}", m_garageDataStructure.GetListOfLicenseNumbers(eRepairState.Payed));
+                    break;
+
+
+            }
+
+            return returnedString.ToString();
+        }
         public void ChangeVehicleRepairState(string i_LicenseNumber, eRepairState i_VehicleNewRepairState)
         {
             Vehicle vehicleToInspect;
@@ -38,20 +66,40 @@ namespace Ex03.ConsoleUI
             Vehicle vehicleToWorkOn = m_garageDataStructure.search(io_LicenseNumber);
             vehicleToWorkOn.FillAirToMax();
         }
-        public void RefuelVehicle(string io_LicenseNumber, Fuel.eFuelType io_TypeOfFuel, float io_AmountToAdd)
+        public void RefuelGasVehicle(string io_LicenseNumber, Fuel.eFuelType io_TypeOfFuel, float io_AmountToAdd)
         {
             Vehicle vehicleToRefuel = m_garageDataStructure.search(io_LicenseNumber);
-            Fuel engineType = vehicleToRefuel.GetEnergyType as Fuel;
-            if (engineType != null)
+            Fuel fuelEngine = vehicleToRefuel.GetEnergySource as Fuel;
+            if (fuelEngine != null)
             {
-                engineType.Refuel(io_TypeOfFuel, io_AmountToAdd);
+                fuelEngine.Refuel(io_TypeOfFuel, io_AmountToAdd);
             }
             else
             {
                 //exception
-                throw new ArgumentException(string.Format("The refueld car: {0} should be only fuel (and Not Electric) ",io_LicenseNumber),io_LicenseNumber);
+                throw new ArgumentException(string.Format("The refueld car: {0} should be only fuel (and not electric) ", io_LicenseNumber), io_LicenseNumber);
             }
 
+        }
+        public void RechargeElectricVehicle(string io_LicenseNumber, float i_MinutesToAdd)
+        {
+            const int k_MinutesInHour = 60;
+            Vehicle vehicleToRecharge = m_garageDataStructure.search(io_LicenseNumber);
+            ElectricityEngine electricEngine = vehicleToRecharge.GetEnergySource as ElectricityEngine;
+            if (electricEngine != null)
+            {
+                float hoursToAdd = i_MinutesToAdd / k_MinutesInHour;
+                electricEngine.ReCharge(hoursToAdd);
+            }
+            else
+            {
+                throw new ArgumentException(string.Format("The recharged car: {0} should be only electric (and not fuel) ", io_LicenseNumber), io_LicenseNumber);
+            }
+        }
+        public string GetAllDataOnVehicle(string io_LicenseNumber)
+        {
+            Vehicle vehicleToShow = m_garageDataStructure.search(io_LicenseNumber);
+            return vehicleToShow.ToString();
         }
     }
 }

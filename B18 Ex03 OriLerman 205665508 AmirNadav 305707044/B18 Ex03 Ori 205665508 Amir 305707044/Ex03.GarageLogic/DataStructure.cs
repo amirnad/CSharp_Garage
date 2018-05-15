@@ -19,6 +19,12 @@ namespace Ex03.GarageLogic
             return theOneWeLookFor;
         }
 
+        public int Count
+        {
+            get { return vehiclesDictionary.Count; }
+        }
+
+
         public bool DoesVehicleExists(string o_LicenseNumber)
         {
             return vehiclesDictionary.ContainsKey(o_LicenseNumber);
@@ -57,6 +63,48 @@ namespace Ex03.GarageLogic
             }
 
             vehiclesDictionary.Remove(i_vehicle.LicenseNumber);
+        }
+
+        public string GetListOfLicenseNumbers(eRepairState i_RepairState)
+        {
+            StringBuilder returnedList = new StringBuilder();
+            switch (i_RepairState)
+            {
+                case eRepairState.AllStates:
+                    foreach (KeyValuePair<string, Vehicle> pair in vehiclesDictionary)
+                    {
+                        returnedList.AppendFormat(pair.Key);
+                    }
+                    if(vehiclesDictionary.Count == 0)
+                    {
+                        returnedList.AppendFormat("\tThere are no vehicles in the garage at the moment!{0}", Environment.NewLine);
+
+                    }
+                    break;
+                case eRepairState.Fixed:
+                    getListOfLicensePlates(m_fixedList, ref returnedList);
+                    break;
+                case eRepairState.InShop:
+                    getListOfLicensePlates(m_InShopList, ref returnedList);
+                    break;
+                case eRepairState.Payed:
+                    getListOfLicensePlates(m_payedList, ref returnedList);
+                    break;
+
+            }
+            return returnedList.ToString();
+        }
+
+        private void getListOfLicensePlates(List<Vehicle> i_VehiclesList, ref StringBuilder o_ReturnedString)
+        {
+            foreach (Vehicle vehicle in i_VehiclesList)
+            {
+                o_ReturnedString.AppendFormat("\t{0}{1}", vehicle.LicenseNumber, Environment.NewLine);
+            }
+            if(i_VehiclesList.Count == 0)
+            {
+                o_ReturnedString.AppendFormat("\tThere are no vehicles in this list at the moment!{0}", Environment.NewLine);
+            }
         }
 
         public List<Vehicle> getFixedList()

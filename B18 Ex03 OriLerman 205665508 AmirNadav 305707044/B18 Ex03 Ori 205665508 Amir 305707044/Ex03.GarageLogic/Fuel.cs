@@ -13,10 +13,11 @@ namespace Ex03.GarageLogic
         private eFuelType m_FuelType;
         private float m_CurrentFuelAmount;
         private readonly float r_MaxFuelAmount;
+        private float m_FuelRatio;
 
-        public override float CalculateRatio()
+        public override void CalculateRatio()
         {
-            return m_CurrentFuelAmount / r_MaxFuelAmount;
+            m_FuelRatio = m_CurrentFuelAmount / r_MaxFuelAmount;
         }
 
         public Fuel(eFuelType o_TypeOfFuel, float o_CurrentAmount, float o_MaxAmount)
@@ -24,6 +25,7 @@ namespace Ex03.GarageLogic
             m_FuelType = o_TypeOfFuel;
             m_CurrentFuelAmount = o_CurrentAmount;
             r_MaxFuelAmount = o_MaxAmount;
+            CalculateRatio();
             
         }
 
@@ -34,6 +36,7 @@ namespace Ex03.GarageLogic
                 if (m_CurrentFuelAmount + i_FuelAmountToAdd <= r_MaxFuelAmount)
                 {
                     m_CurrentFuelAmount += i_FuelAmountToAdd;
+                    CalculateRatio();
                 }
                 else
                 {
@@ -47,6 +50,10 @@ namespace Ex03.GarageLogic
             }
         }
 
+        public override string ToString()
+        {
+            return string.Format("Engine Type: Fuel{0}\tFuel Type: {1}{0}\tFuel Percentage: {2}%{0}\tCurrent Fuel Amount: {3} Liters{0}\tMaximum Fuel Amount: {4} Liters{0}", Environment.NewLine, m_FuelType, m_FuelRatio ,m_CurrentFuelAmount, r_MaxFuelAmount);
+        }
 
     }
 }

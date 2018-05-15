@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Ex03.GarageLogic
 {
-    public enum eRepairState { InShop, Fixed, Payed }
+    public enum eRepairState { InShop, Fixed, Payed , AllStates}
     public abstract class Vehicle
     {
         protected readonly string m_Model;
         protected readonly string m_LicenseNumber;
-        private float m_EnergyRatio = 0;
+      //  private float m_EnergyRatio = 0;
         protected List<Wheel> m_Wheels = null;//initailizes in son
         protected OwnerDetails m_OwnerDetails;
         private eRepairState m_RepairState = eRepairState.InShop;
@@ -24,14 +24,14 @@ namespace Ex03.GarageLogic
             m_OwnerDetails = io_OwnerDetails;
             m_Wheels = io_Wheels;
         }
-        protected float EnergyRatio
-        {
-            get { return m_EnergyRatio; }
-            set
-            {
-                m_EnergyRatio = value;
-            }
-        }
+        //protected float EnergyRatio
+        //{
+        //    get { return m_EnergyRatio; }
+        //    set
+        //    {
+        //        m_EnergyRatio = value;
+        //    }
+        //}
         public eRepairState RepairState
         {
             get { return m_RepairState; }
@@ -40,7 +40,7 @@ namespace Ex03.GarageLogic
                 m_RepairState = value;
             }
         }
-        public EnergyType GetEnergyType
+        public EnergyType GetEnergySource
         {
             get { return m_EnergyType; }
         }
@@ -62,12 +62,11 @@ namespace Ex03.GarageLogic
         {
             get { return m_LicenseNumber; }
         }
-        public KeyValuePair<string, Vehicle> ToPair()
-        {
-            KeyValuePair<string, Vehicle> returnedPair = new KeyValuePair<string, Vehicle>(m_LicenseNumber, this);
-            return returnedPair;
-        }
 
+        public override string ToString()
+        {
+            return string.Format("License Number: {0}\tModel: {2}\tRepair State: {3}{1}", m_LicenseNumber.ToString(), Environment.NewLine, m_Model, m_RepairState);
+        }
     }
     //public class program
     //{
