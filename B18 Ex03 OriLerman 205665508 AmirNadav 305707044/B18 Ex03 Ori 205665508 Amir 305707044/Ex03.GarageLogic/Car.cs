@@ -11,8 +11,10 @@ namespace Ex03.GarageLogic
         public const float k_MaxCarPsi = 32;
         public const float k_MaxCarFuel = 45;
         public const float k_MaxCarElectricHours = 3.2f;
-        public enum eCarColors { Gray, Blue, White, Black }
+        public enum eCarColors { Gray = 1 , Blue, White, Black }
         public enum eNumberOfDoors { Two = 2, Three, Four, Five }
+
+
         private eCarColors m_CarColor;
         private eNumberOfDoors m_NumberOfDoors;
 
@@ -30,6 +32,7 @@ namespace Ex03.GarageLogic
             m_NumberOfDoors = i_CarDoors;
             m_EnergyType = o_TypeOfEnergy;
         }
+
 
         public override string ToString()
         {

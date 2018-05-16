@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ex03.GarageLogic
 {
-    public class Fuel : EnergyType
+    public class FuelEngine : EnergyType
     {
         public enum eFuelType { Octan95, Octan96, Octan98, Soler }
 
@@ -20,7 +20,7 @@ namespace Ex03.GarageLogic
             m_FuelRatio = m_CurrentFuelAmount / r_MaxFuelAmount;
         }
 
-        public Fuel(eFuelType o_TypeOfFuel, float o_CurrentAmount, float o_MaxAmount)
+        public FuelEngine(eFuelType o_TypeOfFuel, float o_CurrentAmount, float o_MaxAmount)
         {
             m_FuelType = o_TypeOfFuel;
             m_CurrentFuelAmount = o_CurrentAmount;
@@ -52,7 +52,7 @@ namespace Ex03.GarageLogic
 
         public override string ToString()
         {
-            return string.Format("Engine Type: Fuel{0}\tFuel Type: {1}{0}\tFuel Percentage: {2}%{0}\tCurrent Fuel Amount: {3} Liters{0}\tMaximum Fuel Amount: {4} Liters{0}", Environment.NewLine, m_FuelType, m_FuelRatio ,m_CurrentFuelAmount, r_MaxFuelAmount);
+            return string.Format("Engine Type: FuelEngine{0}\tFuel Type: {1}{0}\tFuel Percentage: {2}%{0}\tCurrent FuelEngine Amount: {3} Liters{0}\tMaximum FuelEngine Amount: {4} Liters{0}", Environment.NewLine, m_FuelType, m_FuelRatio ,m_CurrentFuelAmount, r_MaxFuelAmount);
         }
 
     }

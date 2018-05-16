@@ -9,8 +9,8 @@ namespace Ex03.GarageLogic
 
     public static class Factory
     {
-        public enum eSupportedVehicles { Car, Truck, MotorCycle }
-        public enum eSupportedEngines { Electric, Fuel }
+        public enum eSupportedVehicles { Car = 1, Truck, MotorCycle }
+        public enum eSupportedEngines { Electric = 1, Fuel }
 
         public static Vehicle createNewVehicle(ref VehicleInitialDetails i_RequiermentsForVehicle)
         {
@@ -34,9 +34,9 @@ namespace Ex03.GarageLogic
 
         private static Vehicle createTruck(VehicleInitialDetails i_RequiermentsForVehicle)
         {
-            Fuel TruckEngine = new Fuel(Fuel.eFuelType.Soler, i_RequiermentsForVehicle.m_EnergyTypeInfo.m_CurrentAmountEnergy, Truck.k_MaxTruckFuel);
+            FuelEngine TruckEngine = new FuelEngine(FuelEngine.eFuelType.Soler, i_RequiermentsForVehicle.m_EnergyTypeInfo.m_CurrentAmountEnergy, Truck.k_MaxTruckFuel);
             List<Wheel> TruckWheels = new List<Wheel>();
-            foreach (VehicleInitialDetails.wheelsInfo w in i_RequiermentsForVehicle.m_WheelsInfoList)
+            foreach (VehicleInitialDetails.WheelsListInfo w in i_RequiermentsForVehicle.m_AllWheelsInfo)
             {
                 TruckWheels.Add(new Wheel(w.m_TyreManufacturer, Truck.k_MaxTruckPsi, w.m_TyrePsi));
             }
@@ -55,7 +55,7 @@ namespace Ex03.GarageLogic
         private static Vehicle createMotorCycle(VehicleInitialDetails i_RequiermentsForVehicle)
         {
             List<Wheel> motorcycleWheels = new List<Wheel>();
-            foreach (VehicleInitialDetails.wheelsInfo w in i_RequiermentsForVehicle.m_WheelsInfoList)
+            foreach (VehicleInitialDetails.WheelsListInfo w in i_RequiermentsForVehicle.m_AllWheelsInfo)
             {
                 motorcycleWheels.Add(new Wheel(w.m_TyreManufacturer, Motorcycle.k_MaxMotorcyclePsi, w.m_TyrePsi));
             }
@@ -68,7 +68,7 @@ namespace Ex03.GarageLogic
             }
             else///fuel
             {
-                MotorCycleEnergyType = new Fuel(Fuel.eFuelType.Octan96, i_RequiermentsForVehicle.m_EnergyTypeInfo.m_CurrentAmountEnergy, Motorcycle.k_MaxMotorcycleFuel);
+                MotorCycleEnergyType = new FuelEngine(FuelEngine.eFuelType.Octan96, i_RequiermentsForVehicle.m_EnergyTypeInfo.m_CurrentAmountEnergy, Motorcycle.k_MaxMotorcycleFuel);
             }
 
             return new Motorcycle(i_RequiermentsForVehicle.m_MotorCycleInfo.m_licenceType,
@@ -84,7 +84,7 @@ namespace Ex03.GarageLogic
         {
 
             List<Wheel> carWheels = new List<Wheel>();
-            foreach (VehicleInitialDetails.wheelsInfo w in i_RequiermentsForVehicle.m_WheelsInfoList)
+            foreach (VehicleInitialDetails.WheelsListInfo w in i_RequiermentsForVehicle.m_AllWheelsInfo)
             {
                 carWheels.Add(new Wheel(w.m_TyreManufacturer, Car.k_MaxCarPsi, w.m_TyrePsi));
             }
@@ -97,7 +97,7 @@ namespace Ex03.GarageLogic
             }
             else///fuel
             {
-                carEnergyType = new Fuel(Fuel.eFuelType.Octan98, i_RequiermentsForVehicle.m_EnergyTypeInfo.m_CurrentAmountEnergy, Car.k_MaxCarFuel);
+                carEnergyType = new FuelEngine(FuelEngine.eFuelType.Octan98, i_RequiermentsForVehicle.m_EnergyTypeInfo.m_CurrentAmountEnergy, Car.k_MaxCarFuel);
             }
 
             return new Car(i_RequiermentsForVehicle.m_CarInfo.m_Color,

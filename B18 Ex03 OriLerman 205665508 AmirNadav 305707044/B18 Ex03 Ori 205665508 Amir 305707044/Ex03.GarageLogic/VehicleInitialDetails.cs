@@ -16,14 +16,15 @@ namespace Ex03.GarageLogic
         public CarInfo m_CarInfo;
         public MotorcycleInfo m_MotorCycleInfo;
         public ownerInfo m_ownerInfo;
-        public List<wheelsInfo> m_WheelsInfoList;
+        public WheelInfo m_WheelInfo;
+        public List<WheelsListInfo> m_AllWheelsInfo;
 
 
 
         public struct TruckInfo
         {
             public bool m_TruckCooled;
-            public int m_TrunkVolume;
+            public float m_TrunkVolume;
             
         }
         public struct CarInfo
@@ -41,14 +42,27 @@ namespace Ex03.GarageLogic
             public string m_OwnerName;
             public string m_OwnerPhone;
         }
-        public struct wheelsInfo
+        public struct WheelInfo
+        {
+            public string m_TyreManufacturer;
+            public float m_TyreMaxPsi;
+            public WheelInfo(string i_Manufacturer, float i_MaximumPsi)
+            {
+                m_TyreManufacturer = i_Manufacturer;
+                m_TyreMaxPsi = i_MaximumPsi;
+            }
+        }
+
+        public struct WheelsListInfo
         {
             public string m_TyreManufacturer;
             public float m_TyrePsi;
-            public wheelsInfo(string o_TyreManufacturer,float o_TyrePsi)
+            public float m_TyreMaxPsi;
+            public WheelsListInfo(string i_TyreManufacturer,float i_TyrePsi, float i_TyreMaxPsi)
             {
-                m_TyreManufacturer = o_TyreManufacturer;
-                m_TyrePsi = o_TyrePsi;
+                m_TyreManufacturer = i_TyreManufacturer;
+                m_TyrePsi = i_TyrePsi;
+                m_TyreMaxPsi = i_TyreMaxPsi;
             }
         }
         public struct EnergyTypeInfo

@@ -36,7 +36,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GarageManager.cs" />
+    <Compile Include="GarageManagerForConsole.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="UI.cs" />
   </ItemGroup>

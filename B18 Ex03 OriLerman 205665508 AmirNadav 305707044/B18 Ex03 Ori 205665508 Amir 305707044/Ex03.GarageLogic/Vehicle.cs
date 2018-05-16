@@ -6,12 +6,16 @@ using System.Threading.Tasks;
 
 namespace Ex03.GarageLogic
 {
-    public enum eRepairState { InShop, Fixed, Payed , AllStates}
+    public enum eRepairState { AllStates, InShop, Fixed, Payed }
     public abstract class Vehicle
     {
+        public static readonly int k_CarWheels = 4;
+        public static readonly int k_MotorcycleWheels = 2;
+        public static readonly int k_TruckWheels = 12;
+
         protected readonly string m_Model;
         protected readonly string m_LicenseNumber;
-      //  private float m_EnergyRatio = 0;
+        //  private float m_EnergyRatio = 0;
         protected List<Wheel> m_Wheels = null;//initailizes in son
         protected OwnerDetails m_OwnerDetails;
         private eRepairState m_RepairState = eRepairState.InShop;
@@ -51,14 +55,14 @@ namespace Ex03.GarageLogic
         public void FillAirToMax()
         {
             float maxVehiclePsi = VehicleMaxPressure;
-            foreach(Wheel wheel in m_Wheels)
+            foreach (Wheel wheel in m_Wheels)
             {
                 float currentWheelPsi = wheel.CurrentPressure;
                 wheel.fillAir(maxVehiclePsi - currentWheelPsi);
 
             }
         }
-        internal string LicenseNumber
+        public string LicenseNumber
         {
             get { return m_LicenseNumber; }
         }
@@ -78,9 +82,9 @@ namespace Ex03.GarageLogic
 
     //        Wheel wh = new Wheel("ori", 12, 12);
     //        List<Wheel> l = new List<Wheel>();
-    //        Vehicle vh = new Truck(true, 12, new Fuel(Fuel.eFuelType.Octan95, 12, 14), "o", "123", new OwnerDetails("ori", "052"), l);
+    //        Vehicle vh = new Truck(true, 12, new FuelEngine(FuelEngine.eFuelType.Octan95, 12, 14), "o", "123", new OwnerDetails("ori", "052"), l);
     //        OwnerDetails od = new OwnerDetails("ol", "052");
-    //        DataStructure ds = new DataStructure();
+    //        VehiclesGarage ds = new VehiclesGarage();
 
     //        garageManager gm = new garageManager();
     //        bool exists = gm.CheckIfVehicleExists("12221C");
@@ -95,12 +99,12 @@ namespace Ex03.GarageLogic
     //    public static VehicleInitialDetails CreateNewSetup()
     //    {
     //        VehicleInitialDetails setup = new VehicleInitialDetails();
-    //        List<VehicleInitialDetails.wheelsInfo> myWheels = new List<VehicleInitialDetails.wheelsInfo>();
+    //        List<VehicleInitialDetails.WheelsListInfo> myWheels = new List<VehicleInitialDetails.WheelsListInfo>();
 
-    //        myWheels.Add(new VehicleInitialDetails.wheelsInfo("pirelli", 14f));
-    //        myWheels.Add(new VehicleInitialDetails.wheelsInfo("pirelli", 14f));
-    //        myWheels.Add(new VehicleInitialDetails.wheelsInfo("pirelli", 14f));
-    //        myWheels.Add(new VehicleInitialDetails.wheelsInfo("pirelli", 14f));
+    //        myWheels.Add(new VehicleInitialDetails.WheelsListInfo("pirelli", 14f));
+    //        myWheels.Add(new VehicleInitialDetails.WheelsListInfo("pirelli", 14f));
+    //        myWheels.Add(new VehicleInitialDetails.WheelsListInfo("pirelli", 14f));
+    //        myWheels.Add(new VehicleInitialDetails.WheelsListInfo("pirelli", 14f));
 
 
 
@@ -112,7 +116,7 @@ namespace Ex03.GarageLogic
     //        setup.m_EnergyTypeInfo.m_CurrentAmountEnergy = 6;
     //        setup.m_ownerInfo.m_OwnerName = "ori";
     //        setup.m_ownerInfo.m_OwnerPhone = "0523221702";
-    //        setup.m_WheelsInfoList = myWheels;
+    //        setup.m_AllWheelsInfo = myWheels;
     //        return setup;
 
     //    }

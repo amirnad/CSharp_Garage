@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Ex03.GarageLogic
 {
-    class Truck : Vehicle
+    public class Truck : Vehicle
     {
+        public enum eIsCooled { No, Yes };
         public const float k_MaxTruckPsi = 28;
         public const float k_MaxTruckFuel = 115;
         bool m_TrunkCooled;
@@ -21,7 +22,7 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public Truck(bool i_TrunkCooled, float i_TrunkVolume, Fuel o_TypeOfEnergy, string o_ModelName, string o_LicensePlate, OwnerDetails o_TruckOwner, List<Wheel> o_Wheels) 
+        public Truck(bool i_TrunkCooled, float i_TrunkVolume, FuelEngine o_TypeOfEnergy, string o_ModelName, string o_LicensePlate, OwnerDetails o_TruckOwner, List<Wheel> o_Wheels) 
             : base(o_ModelName, o_LicensePlate, o_TruckOwner, o_Wheels)
         {
             m_TrunkCooled = i_TrunkCooled;

@@ -3,45 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ex03.GarageLogic;
 
 namespace Ex03.ConsoleUI
 {
-    class UI
+    public class UI
     {
-        private enum eUserState { Quit, GoOn }
-        public static void GarageLoop()
+        public static void ShowGarageMenu()
         {
-            eUserState userState = eUserState.GoOn;
-
-            while (userState == eUserState.GoOn)
-            {
-                try
-                {
-                    ///the actual garageLoop
-                }
-                catch(ArgumentException ex)
-                {
-                    Console.WriteLine(ex.Message);   
-                }
-                catch(Ex03.GarageLogic.ValueOutOfRangeException ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-                catch(Exception)
-                {
-                    Console.WriteLine("someThing Went Wrong mate -> but generally wrong");///needs better text
-                }
-
-
-            }
-
-
-
-
-
 
         }
+        public static void ReadInput(out object r)
+        {
+            
+            r = Console.ReadLine();
+   
 
-
+        }
     }
+
+
 }
+

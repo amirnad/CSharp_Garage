@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 //{
 //    public class garageManager
 //    {
-//        private DataStructure m_garageDataStructure = new DataStructure();
+//        private VehiclesGarage m_garageDataStructure = new VehiclesGarage();
 
 //        public bool CheckIfVehicleExists(string i_LicenseNumber)
 //        {
@@ -24,7 +24,7 @@ using System.Threading.Tasks;
 //        public void ChangeVehicleRepairState(string i_LicenseNumber, eRepairState i_VehicleNewRepairState)
 //        {
 //            Vehicle vehicleToInspect;
-//            vehicleToInspect = m_garageDataStructure.search(i_LicenseNumber);
+//            vehicleToInspect = m_garageDataStructure.GetVehicle(i_LicenseNumber);
 //         //   vehicleToInspect.RepairState = i_VehicleNewRepairState;
 //            if(vehicleToInspect.RepairState != i_VehicleNewRepairState)
 //            {
@@ -35,7 +35,7 @@ using System.Threading.Tasks;
 //        }
 //        public void FillTyrePressure(string io_LicenseNumber)
 //        {
-//            Vehicle vehicleToWorkOn = m_garageDataStructure.search(io_LicenseNumber);
+//            Vehicle vehicleToWorkOn = m_garageDataStructure.GetVehicle(io_LicenseNumber);
 //            vehicleToWorkOn.FillAirToMax();
 //        }
 

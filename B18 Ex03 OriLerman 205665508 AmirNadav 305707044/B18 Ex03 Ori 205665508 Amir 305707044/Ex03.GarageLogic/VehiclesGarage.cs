@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Ex03.GarageLogic
 {
-    public class DataStructure
+    public class VehiclesGarage
     {
         private Dictionary<String, Vehicle> vehiclesDictionary = new Dictionary<String, Vehicle>();
         private List<Vehicle> m_fixedList = new List<Vehicle>();
         private List<Vehicle> m_payedList = new List<Vehicle>();
         private List<Vehicle> m_InShopList = new List<Vehicle>();
 
-        public Vehicle search(string LicenseNumber)
+        public Vehicle GetVehicle(string LicenseNumber)
         {
             Vehicle theOneWeLookFor = vehiclesDictionary[LicenseNumber];
             return theOneWeLookFor;
@@ -23,9 +23,7 @@ namespace Ex03.GarageLogic
         {
             get { return vehiclesDictionary.Count; }
         }
-
-
-        public bool DoesVehicleExists(string o_LicenseNumber)
+                public bool DoesVehicleExists(string o_LicenseNumber)
         {
             return vehiclesDictionary.ContainsKey(o_LicenseNumber);
         }
@@ -65,48 +63,10 @@ namespace Ex03.GarageLogic
             vehiclesDictionary.Remove(i_vehicle.LicenseNumber);
         }
 
-        public string GetListOfLicenseNumbers(eRepairState i_RepairState)
+        public Dictionary<string, Vehicle> GetDictionary()
         {
-            StringBuilder returnedList = new StringBuilder();
-            switch (i_RepairState)
-            {
-                case eRepairState.AllStates:
-                    foreach (KeyValuePair<string, Vehicle> pair in vehiclesDictionary)
-                    {
-                        returnedList.AppendFormat(pair.Key);
-                    }
-                    if(vehiclesDictionary.Count == 0)
-                    {
-                        returnedList.AppendFormat("\tThere are no vehicles in the garage at the moment!{0}", Environment.NewLine);
-
-                    }
-                    break;
-                case eRepairState.Fixed:
-                    getListOfLicensePlates(m_fixedList, ref returnedList);
-                    break;
-                case eRepairState.InShop:
-                    getListOfLicensePlates(m_InShopList, ref returnedList);
-                    break;
-                case eRepairState.Payed:
-                    getListOfLicensePlates(m_payedList, ref returnedList);
-                    break;
-
-            }
-            return returnedList.ToString();
+            return vehiclesDictionary;
         }
-
-        private void getListOfLicensePlates(List<Vehicle> i_VehiclesList, ref StringBuilder o_ReturnedString)
-        {
-            foreach (Vehicle vehicle in i_VehiclesList)
-            {
-                o_ReturnedString.AppendFormat("\t{0}{1}", vehicle.LicenseNumber, Environment.NewLine);
-            }
-            if(i_VehiclesList.Count == 0)
-            {
-                o_ReturnedString.AppendFormat("\tThere are no vehicles in this list at the moment!{0}", Environment.NewLine);
-            }
-        }
-
         public List<Vehicle> getFixedList()
         {
             return m_fixedList;
