@@ -15,6 +15,7 @@
         {
             get { return m_CurrentAmountEnergy; }
         }
+
         public eSupportedEngines Type
         {
             get { return m_Engine; }

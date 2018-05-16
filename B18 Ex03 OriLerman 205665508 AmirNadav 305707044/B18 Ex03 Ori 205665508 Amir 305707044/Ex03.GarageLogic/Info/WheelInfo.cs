@@ -17,10 +17,12 @@
         {
             get { return m_TyreManufacturer; }
         }
+
         public float MaxTyrePressure
         {
             get { return m_TyreMaxPsi; }
         }
+
         public float CurrentTyrePressure
         {
             get { return m_TyreCurrentPsi; }

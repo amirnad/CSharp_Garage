@@ -21,6 +21,7 @@ namespace Ex03.ConsoleUI
     6. Recharge an electric engined vehicle.
     7. Show full details of a specific vehicle.
     8. Exit garage";
+
         private const string k_AddNewVehicleMessage = "Vehicle number {0} was added succesfully!";
         private const string k_VehicleExistsMessage = "Vehicle number {0} is now in repair!";
         private const string k_ChangeStateMessage = "Vehicle number {0} repair state was changed successfuly!";
@@ -30,13 +31,22 @@ namespace Ex03.ConsoleUI
         private const string k_PressAnyKeyMessage = "Press any key to continue...";
         private const string k_EnterLicenseNumber = "Please enter a license number: ";
 
+        public enum eUserChoice
+        {
+            AddVehicle = 1,
+            ShowLicenseNumbers,
+            ChangeVehicleState,
+            FillVehicleAir,
+            RefuelVehicle,
+            RechargeVehicle,
+            ShowVehicleFullDetails,
+            Exit
+        }
 
-        public enum eUserChoice { AddVehicle = 1, ShowLicenseNumbers, ChangeVehicleState, FillVehicleAir, RefuelVehicle, RechargeVehicle, ShowVehicleFullDetails, Exit }
-
-        //public enum eFiltering { NoFilter, InShop, Fixed, Payed }
         private static bool s_LeaveGarage = false;
         private VehiclesGarage m_GarageDataStructure = new VehiclesGarage();
         private eUserChoice m_MenuChoice;
+
         public void RunGarage()
         {
             string userInput = string.Empty;
@@ -72,16 +82,17 @@ namespace Ex03.ConsoleUI
                     Console.ReadLine();
                     Console.Clear();
                 }
-
             }
         }
 
         private void showGarageMenu()
         {
+            Console.WriteLine(k_WelcomeMessage);
             Console.WriteLine(k_Border);
             Console.WriteLine(k_MenuOptions);
             Console.WriteLine(k_Border);
         }
+
         private void interpretUserChoice(string i_UserChoice, out eUserChoice o_Choice)
         {
             o_Choice = (eUserChoice)Enum.Parse(typeof(eUserChoice), i_UserChoice);
@@ -89,12 +100,10 @@ namespace Ex03.ConsoleUI
             {
                 throw new ArgumentException("Invalid input to menu!");
             }
-
         }
 
         private void executeUserChoice(eUserChoice i_UserChoice)
         {
-
             switch (i_UserChoice)
             {
                 case eUserChoice.AddVehicle:
@@ -145,9 +154,11 @@ namespace Ex03.ConsoleUI
                 ChangeVehicleRepairState(licenseNumber, eRepairState.InShop);
                 finishTreatmentMessage.AppendFormat(k_VehicleExistsMessage, licenseNumber);
             }
+
             Console.WriteLine(k_Border);
             Console.WriteLine(finishTreatmentMessage);
         }
+
         private void ShowVehiclesLicenseNumbers()
         {
             eRepairState howToFilter;
@@ -155,6 +166,7 @@ namespace Ex03.ConsoleUI
             Console.WriteLine(k_Border);
             ShowLicenseNumberByFilter(howToFilter);
         }
+
         private void ChangeVehicleState()
         {
             string licenseNumber;
@@ -165,8 +177,8 @@ namespace Ex03.ConsoleUI
 
             Console.WriteLine(k_ChangeStateMessage, licenseNumber);
             Console.WriteLine(k_Border);
-
         }
+
         private void FillAir()
         {
             string licenseNumber;
@@ -175,9 +187,8 @@ namespace Ex03.ConsoleUI
 
             Console.WriteLine(k_FillAirMessage, licenseNumber);
             Console.WriteLine(k_Border);
-
-
         }
+
         private void RefuelVehicle()
         {
             string licenseNumber;
@@ -189,8 +200,8 @@ namespace Ex03.ConsoleUI
 
             Console.WriteLine(k_GasTankFullMessage, licenseNumber);
             Console.WriteLine(k_Border);
-
         }
+
         private void RechargeVehicle()
         {
             string licenseNumber;
@@ -200,8 +211,8 @@ namespace Ex03.ConsoleUI
 
             Console.WriteLine(k_BatteryChargedMessage, licenseNumber);
             Console.WriteLine(k_Border);
-
         }
+
         private void ShowVehicleFullDetails()
         {
             string licenseNumber;
@@ -218,8 +229,10 @@ namespace Ex03.ConsoleUI
             {
                 throw new FormatException("License Number mus be filled!");
             }
+
             return licenseNumber;
         }
+
         private void readVehicleDetails(out VehicleInitialDetails i_UserVehicleDetails)
         {
             i_UserVehicleDetails = new VehicleInitialDetails();
@@ -251,6 +264,7 @@ namespace Ex03.ConsoleUI
                     i_UserVehicleDetails.TruckDetails = truckInfo;
                     break;
             }
+
             wheelInfo = readWheel();
 
             i_UserVehicleDetails.OwnerDetails = vehicleOwner;
@@ -258,12 +272,7 @@ namespace Ex03.ConsoleUI
             i_UserVehicleDetails.Model = vehicleModel;
             i_UserVehicleDetails.EngineType = engineType;
             i_UserVehicleDetails.WheelDetails = wheelInfo;
-
-
         }
-
-
-
 
         private OwnerDetails readOwnerDetails()
         {
@@ -283,8 +292,8 @@ namespace Ex03.ConsoleUI
 
             vehicleOwner = new OwnerDetails(ownerName, ownerPhoneNumber);
             return vehicleOwner;
-
         }
+
         private eSupportedVehicles readVehicleType()
         {
             eSupportedVehicles vehicleType;
@@ -295,9 +304,10 @@ namespace Ex03.ConsoleUI
             {
                 throw new ArgumentException("Undefined Vehicle Type");
             }
-            return vehicleType;
 
+            return vehicleType;
         }
+
         private string readVehicleModel()
         {
             string model;
@@ -308,13 +318,15 @@ namespace Ex03.ConsoleUI
             {
                 throw new FormatException("Vehicle Manufacturer must be filled!");
             }
+
             return model;
         }
+
         private EnergyTypeInfo readEngineInfo(eSupportedVehicles i_VehicleType)
         {
             EnergyTypeInfo engine;
-            eSupportedEngines engineType = eSupportedEngines.Fuel;    //just a default value -- > always being checked!
-            float remainingEnergy = 0;  //just default value
+            eSupportedEngines engineType = eSupportedEngines.Fuel;    // just a default value -- > always being checked!
+            float remainingEnergy = 0;  // just default value
 
             switch (i_VehicleType)
             {
@@ -348,9 +360,9 @@ namespace Ex03.ConsoleUI
             checkValidityOfRemainingEnergy(i_VehicleType, engineType, remainingEnergy);
 
             engine = new EnergyTypeInfo(remainingEnergy, engineType);
-
             return engine;
         }
+
         private void checkValidityOfRemainingEnergy(eSupportedVehicles i_VehicleType, eSupportedEngines i_EngineType, float i_RemainingEnergy)
         {
             switch (i_VehicleType)
@@ -364,6 +376,7 @@ namespace Ex03.ConsoleUI
                     {
                         throw new ValueOutOfRangeException(0f, Car.k_MaxCarElectricHours, "ElectricityEngine.m_CurrentBatteryHoursLeft");
                     }
+
                     break;
                 case eSupportedVehicles.MotorCycle:
                     if (i_EngineType == eSupportedEngines.Fuel && i_RemainingEnergy > Motorcycle.k_MaxMotorcycleFuel)
@@ -374,16 +387,18 @@ namespace Ex03.ConsoleUI
                     {
                         throw new ValueOutOfRangeException(0f, Motorcycle.k_MaxMotorcycleElectricHours, "ElectricityEngine.m_CurrentBatteryHoursLeft");
                     }
+
                     break;
                 case eSupportedVehicles.Truck:
                     if (i_RemainingEnergy > Truck.k_MaxTruckFuel)
                     {
                         throw new ValueOutOfRangeException(0f, Truck.k_MaxTruckFuel, "FuelEngine.m_CurrentFuelAmount");
                     }
+
                     break;
             }
-
         }
+
         private CarInfo readCar()
         {
             CarInfo returnedCar;
@@ -396,16 +411,19 @@ namespace Ex03.ConsoleUI
             {
                 throw new ArgumentException("Undefined Car Color");
             }
+
             Console.Write("\tNumber of Doors: 2, 3, 4, 5{0}\t", Environment.NewLine);
             numberOfDoors = (Car.eNumberOfDoors)Enum.Parse(typeof(Car.eNumberOfDoors), Console.ReadLine());
             if (!Enum.IsDefined(typeof(Car.eNumberOfDoors), numberOfDoors))
             {
                 throw new ArgumentException("Undefined Number of Car Doors");
             }
+
             returnedCar = new CarInfo(carColor, numberOfDoors);
 
             return returnedCar;
         }
+
         private MotorcycleInfo readMotorcycle()
         {
             MotorcycleInfo returnedMotorcycle;
@@ -418,19 +436,20 @@ namespace Ex03.ConsoleUI
             {
                 throw new ArgumentException("Undefined Motorcycle License");
             }
+
             Console.Write("\tEngine Volume (in cc): ");
             engineCC = int.Parse(Console.ReadLine());
 
             returnedMotorcycle = new MotorcycleInfo(licenseType, engineCC);
             return returnedMotorcycle;
         }
+
         private TruckInfo readTruck()
         {
             TruckInfo returnedTruck;
             Truck.eIsCooled coolingOptions;
-            bool isCooled = false;      //only default
+            bool isCooled = false;      // only default
             float trunkCapacity;
-
 
             Console.Write("\tCooled Trunk? (0)No, (1)Yes{0}\t", Environment.NewLine);
             coolingOptions = (Truck.eIsCooled)Enum.Parse(typeof(Truck.eIsCooled), Console.ReadLine());
@@ -452,6 +471,7 @@ namespace Ex03.ConsoleUI
             returnedTruck = new TruckInfo(isCooled, trunkCapacity);
             return returnedTruck;
         }
+
         private WheelInfo readWheel()
         {
             WheelInfo returnedWheel;
@@ -465,6 +485,7 @@ namespace Ex03.ConsoleUI
             {
                 throw new FormatException("Tyre Manufacturer must be filled!");
             }
+
             Console.Write("\tWheel Maximum Psi: ");
             wheelMaximumPsi = float.Parse(Console.ReadLine());
             Console.Write("\tWheel Current Psi: ");
@@ -473,8 +494,6 @@ namespace Ex03.ConsoleUI
             returnedWheel = new WheelInfo(wheelManufacturer, wheelMaximumPsi, wheelCurrentPsi);
             return returnedWheel;
         }
-
-
 
         private eRepairState readFilterChoice()
         {
@@ -486,8 +505,10 @@ namespace Ex03.ConsoleUI
             {
                 throw new ArgumentException("Choose a Valid Filtering Option");
             }
+
             return requestedState;
         }
+
         private void readStateChangeData(out string o_LicenseNumber, out eRepairState o_NewState)
         {
             o_LicenseNumber = readLicenseNumber();
@@ -498,6 +519,7 @@ namespace Ex03.ConsoleUI
                 throw new ArgumentException("Choose a Valid New Repair State");
             }
         }
+
         private void readRefulingData(out string o_LicenseNumber, out FuelEngine.eFuelType o_FuelType, out float o_LitersToAdd)
         {
             o_LicenseNumber = readLicenseNumber();
@@ -507,33 +529,32 @@ namespace Ex03.ConsoleUI
             {
                 throw new ArgumentException("Choose a Valid Type of Fuel");
             }
+
             Console.Write("Enter amount to add (in liters): ");
             o_LitersToAdd = float.Parse(Console.ReadLine());
-
         }
+
         private void readChargingData(out string o_LicenseNumber, out float o_MinutesToAdd)
         {
             o_LicenseNumber = readLicenseNumber();
             Console.Write("Enter amount to charge (in minutes): ");
             o_MinutesToAdd = float.Parse(Console.ReadLine());
-
         }
 
-
-
-        public bool CheckIfVehicleExists(string i_LicenseNumber)
+        private bool CheckIfVehicleExists(string i_LicenseNumber)
         {
             bool isInGarage = false;
             isInGarage = m_GarageDataStructure.DoesVehicleExists(i_LicenseNumber);
             return isInGarage;
         }
-        public void AddNewVehicle(VehicleInitialDetails i_detailsForCreatingCar)
+
+        private void AddNewVehicle(VehicleInitialDetails i_detailsForCreatingCar)
         {
-            Vehicle theVehicleToAdd = Factory.createNewVehicle(ref i_detailsForCreatingCar);
+            Vehicle theVehicleToAdd = VehicleFactory.createNewVehicle(i_detailsForCreatingCar);
             m_GarageDataStructure.Add(theVehicleToAdd);
         }
 
-        public void ShowLicenseNumberByFilter(eRepairState i_HowToFilter)
+        private void ShowLicenseNumberByFilter(eRepairState i_HowToFilter)
         {
             StringBuilder licenseNumbersToPrint = new StringBuilder();
             List<Vehicle> vehiclesList;
@@ -543,47 +564,54 @@ namespace Ex03.ConsoleUI
                 case eRepairState.AllStates:
                     if (m_GarageDataStructure.Count > 0)
                     {
-                        Dictionary<string, Vehicle> allVehicles = m_GarageDataStructure.GetDictionary();
+                        Dictionary<string, Vehicle> allVehicles = m_GarageDataStructure.GetWholeGarage();
                         vehiclesList = new List<Vehicle>(allVehicles.Values);
                         licenseNumbersToPrint.AppendFormat("All Vehicles in the Garage:{0}", Environment.NewLine);
                         appendToStringFromList(vehiclesList, ref licenseNumbersToPrint);
                     }
+
                     break;
                 case eRepairState.InShop:
                     vehiclesList = new List<Vehicle>();
-                    vehiclesList = m_GarageDataStructure.getInShopList();
+                    vehiclesList = m_GarageDataStructure.GetInShopList();
                     if (vehiclesList.Count > 0)
                     {
                         licenseNumbersToPrint.AppendFormat("Vehicles that are waiting for repair:{0}", Environment.NewLine);
                         appendToStringFromList(vehiclesList, ref licenseNumbersToPrint);
                     }
+
                     break;
                 case eRepairState.Fixed:
                     vehiclesList = new List<Vehicle>();
-                    vehiclesList = m_GarageDataStructure.getFixedList();
+                    vehiclesList = m_GarageDataStructure.GetFixedList();
                     if (vehiclesList.Count > 0)
                     {
                         licenseNumbersToPrint.AppendFormat("Vehicles that are already fixed:{0}", Environment.NewLine);
                         appendToStringFromList(vehiclesList, ref licenseNumbersToPrint);
                     }
+
                     break;
                 case eRepairState.Payed:
                     vehiclesList = new List<Vehicle>();
-                    vehiclesList = m_GarageDataStructure.getPayedList();
+                    vehiclesList = m_GarageDataStructure.GetPayedList();
                     if (vehiclesList.Count > 0)
                     {
                         licenseNumbersToPrint.AppendFormat("Vehicles that were already payed:{0}", Environment.NewLine);
                         appendToStringFromList(vehiclesList, ref licenseNumbersToPrint);
                     }
+
                     break;
             }
-            if (licenseNumbersToPrint.Length == 0) // we asked for something thats empty
+
+            if (licenseNumbersToPrint.Length == 0)
             {
                 licenseNumbersToPrint.AppendFormat("There are no license numbers to show at the moment!{0}", Environment.NewLine);
             }
+
             licenseNumbersToPrint.AppendLine(k_Border);
             Console.WriteLine(licenseNumbersToPrint);
         }
+
         private void appendToStringFromList(List<Vehicle> i_VehiclesList, ref StringBuilder o_licenseNumbers)
         {
             foreach (Vehicle vehicle in i_VehiclesList)
@@ -591,7 +619,8 @@ namespace Ex03.ConsoleUI
                 o_licenseNumbers.AppendFormat("\t{0}{1}", vehicle.LicenseNumber, Environment.NewLine);
             }
         }
-        public void ChangeVehicleRepairState(string i_LicenseNumber, eRepairState i_VehicleNewRepairState)
+
+        private void ChangeVehicleRepairState(string i_LicenseNumber, eRepairState i_VehicleNewRepairState)
         {
             Vehicle vehicleToInspect;
             vehicleToInspect = m_GarageDataStructure.GetVehicle(i_LicenseNumber);
@@ -602,12 +631,14 @@ namespace Ex03.ConsoleUI
                 m_GarageDataStructure.Add(vehicleToInspect);
             }
         }
-        public void FillTyrePressure(string io_LicenseNumber)
+
+        private void FillTyrePressure(string io_LicenseNumber)
         {
             Vehicle vehicleToWorkOn = m_GarageDataStructure.GetVehicle(io_LicenseNumber);
             vehicleToWorkOn.FillAirToMax();
         }
-        public void RefuelGasVehicle(string io_LicenseNumber, FuelEngine.eFuelType io_TypeOfFuel, float io_AmountToAdd)
+
+        private void RefuelGasVehicle(string io_LicenseNumber, FuelEngine.eFuelType io_TypeOfFuel, float io_AmountToAdd)
         {
             Vehicle vehicleToRefuel = m_GarageDataStructure.GetVehicle(io_LicenseNumber);
             FuelEngine fuelEngine = vehicleToRefuel.GetEnergySource as FuelEngine;
@@ -617,12 +648,11 @@ namespace Ex03.ConsoleUI
             }
             else
             {
-                //exception
                 throw new ArgumentException(string.Format("The refueld car {0} is an Electric Vehicle, try to Recharge instead!", io_LicenseNumber));
             }
-
         }
-        public void RechargeElectricVehicle(string io_LicenseNumber, float i_MinutesToAdd)
+
+        private void RechargeElectricVehicle(string io_LicenseNumber, float i_MinutesToAdd)
         {
             const int k_MinutesInHour = 60;
             Vehicle vehicleToRecharge = m_GarageDataStructure.GetVehicle(io_LicenseNumber);
@@ -637,10 +667,13 @@ namespace Ex03.ConsoleUI
                 throw new ArgumentException(string.Format("The recharged car {0} is powered by gas. Try to refuel instead!{1}", io_LicenseNumber));
             }
         }
-        public void ShowAllDataOnVehicle(string io_LicenseNumber)
+
+        private void ShowAllDataOnVehicle(string io_LicenseNumber)
         {
             Vehicle vehicleToShow = m_GarageDataStructure.GetVehicle(io_LicenseNumber);
+            Console.WriteLine(k_Border);
             Console.WriteLine(vehicleToShow.ToString());
+            Console.WriteLine(k_Border);
         }
     }
 }

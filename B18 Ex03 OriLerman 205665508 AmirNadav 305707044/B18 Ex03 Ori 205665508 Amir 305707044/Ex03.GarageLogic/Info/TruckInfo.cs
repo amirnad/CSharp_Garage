@@ -10,14 +10,15 @@
             m_TruckCooled = i_IsCooled;
             m_TrunkVolume = i_TrunkVolume;
         }
+
         public bool IsCooled
         {
             get { return m_TruckCooled; }
         }
+
         public float TrunkVolume
         {
             get { return m_TrunkVolume; }
         }
-
     }
 }

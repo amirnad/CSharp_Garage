@@ -11,9 +11,22 @@ namespace Ex03.GarageLogic
         public const float k_MaxCarPsi = 32;
         public const float k_MaxCarFuel = 45;
         public const float k_MaxCarElectricHours = 3.2f;
-        public enum eCarColors { Gray = 1 , Blue, White, Black }
-        public enum eNumberOfDoors { Two = 2, Three, Four, Five }
 
+        public enum eCarColors
+        {
+            Gray = 1,
+            Blue,
+            White,
+            Black
+        }
+
+        public enum eNumberOfDoors
+        {
+            Two = 2,
+            Three,
+            Four,
+            Five
+        }
 
         private eCarColors m_CarColor;
         private eNumberOfDoors m_NumberOfDoors;
@@ -26,27 +39,17 @@ namespace Ex03.GarageLogic
             }
         }
 
-
         public Car(
                 string o_Brand,
                 string o_LicenseNumber,
                 OwnerDetails o_Owner,
                 List<Wheel> o_Wheels,
                 CarInfo i_CarInfo,
-                EnergyType i_Engine) : base(o_Brand,o_LicenseNumber,o_Owner,eVehicleWheels.CarWheels,o_Wheels, i_Engine)
+                EnergyType i_Engine) : base(o_Brand, o_LicenseNumber, o_Owner, eVehicleWheels.CarWheels, o_Wheels, i_Engine)
         {
             m_CarColor = i_CarInfo.Color;
             m_NumberOfDoors = i_CarInfo.Doors;
         }
-
-        public Car(eCarColors i_ChosenColor, eNumberOfDoors i_CarDoors, EnergyType o_TypeOfEnergy, string o_ModelName, string o_LicensePlate, OwnerDetails o_CarOwner, List<Wheel> o_Wheels)
-            : base(o_ModelName, o_LicensePlate, o_CarOwner,eVehicleWheels.CarWheels, o_Wheels, o_TypeOfEnergy)
-        {
-            m_CarColor = i_ChosenColor;
-            m_NumberOfDoors = i_CarDoors;
-            m_EnergyType = o_TypeOfEnergy;
-        }
-
 
         public override string ToString()
         {
@@ -60,7 +63,7 @@ namespace Ex03.GarageLogic
             {
                 returnedString.AppendFormat(wheel.ToString());
             }
-            
+
             return returnedString.ToString();
         }
     }

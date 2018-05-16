@@ -2,7 +2,6 @@
 {
     public abstract class EnergyType
     {
-
         public abstract void CalculateRatio();
     }
 }

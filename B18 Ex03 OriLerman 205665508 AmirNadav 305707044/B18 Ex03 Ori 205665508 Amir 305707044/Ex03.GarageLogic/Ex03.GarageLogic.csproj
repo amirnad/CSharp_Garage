@@ -49,13 +49,11 @@
     <Compile Include="Info\TruckInfo.cs" />
     <Compile Include="Info\WheelInfo.cs" />
     <Compile Include="VehiclesAndParts\Car.cs" />
-    <Compile Include="Class1.cs" />
     <Compile Include="VehiclesGarage.cs" />
     <Compile Include="VehiclesAndParts\ElectricityEngine.cs" />
     <Compile Include="VehiclesAndParts\EnergyType.cs" />
-    <Compile Include="Factory.cs" />
+    <Compile Include="VehicleFactory.cs" />
     <Compile Include="VehiclesAndParts\FuelEngine.cs" />
-    <Compile Include="garageManager.cs" />
     <Compile Include="VehiclesAndParts\Motorcycle.cs" />
     <Compile Include="Info\OwnerDetails.cs" />
     <Compile Include="VehiclesAndParts\Truck.cs" />

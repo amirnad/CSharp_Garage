@@ -38,7 +38,6 @@
   <ItemGroup>
     <Compile Include="GarageManagerForConsole.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="UI.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

@@ -10,10 +10,12 @@
             m_Color = i_Color;
             m_NumberOfDoors = i_NumberOfDoors;
         }
+
         public Car.eCarColors Color
         {
             get { return m_Color; }
         }
+
         public Car.eNumberOfDoors Doors
         {
             get { return m_NumberOfDoors; }

@@ -15,6 +15,7 @@
         {
             get { return m_licenceType; }
         }
+
         public int EngineVolume
         {
             get { return m_EngineVolume; }

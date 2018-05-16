@@ -8,25 +8,27 @@ namespace Ex03.GarageLogic
 {
     public class VehiclesGarage
     {
-        private Dictionary<String, Vehicle> vehiclesDictionary = new Dictionary<String, Vehicle>();
+        private Dictionary<string, Vehicle> m_VehiclesDictionary = new Dictionary<string, Vehicle>();
         private List<Vehicle> m_fixedList = new List<Vehicle>();
         private List<Vehicle> m_payedList = new List<Vehicle>();
         private List<Vehicle> m_InShopList = new List<Vehicle>();
 
-        public Vehicle GetVehicle(string LicenseNumber)
+        public Vehicle GetVehicle(string i_LicenseNumber)
         {
-            Vehicle theOneWeLookFor = vehiclesDictionary[LicenseNumber];
+            Vehicle theOneWeLookFor = m_VehiclesDictionary[i_LicenseNumber];
             return theOneWeLookFor;
         }
 
         public int Count
         {
-            get { return vehiclesDictionary.Count; }
+            get { return m_VehiclesDictionary.Count; }
         }
-                public bool DoesVehicleExists(string o_LicenseNumber)
+
+        public bool DoesVehicleExists(string i_LicenseNumber)
         {
-            return vehiclesDictionary.ContainsKey(o_LicenseNumber);
+            return m_VehiclesDictionary.ContainsKey(i_LicenseNumber);
         }
+
         public void Add(Vehicle i_vehicle)
         {
             eRepairState repairState = i_vehicle.RepairState;
@@ -42,8 +44,10 @@ namespace Ex03.GarageLogic
             {
                 m_InShopList.Add(i_vehicle);
             }
-            vehiclesDictionary.Add(i_vehicle.LicenseNumber, i_vehicle);
+
+            m_VehiclesDictionary.Add(i_vehicle.LicenseNumber, i_vehicle);
         }
+
         public void Remove(Vehicle i_vehicle)
         {
             eRepairState repairState = i_vehicle.RepairState;
@@ -60,22 +64,25 @@ namespace Ex03.GarageLogic
                 m_InShopList.Remove(i_vehicle);
             }
 
-            vehiclesDictionary.Remove(i_vehicle.LicenseNumber);
+            m_VehiclesDictionary.Remove(i_vehicle.LicenseNumber);
         }
 
-        public Dictionary<string, Vehicle> GetDictionary()
+        public Dictionary<string, Vehicle> GetWholeGarage()
         {
-            return vehiclesDictionary;
+            return m_VehiclesDictionary;
         }
-        public List<Vehicle> getFixedList()
+
+        public List<Vehicle> GetFixedList()
         {
             return m_fixedList;
         }
-        public List<Vehicle> getPayedList()
+
+        public List<Vehicle> GetPayedList()
         {
             return m_payedList;
         }
-        public List<Vehicle> getInShopList()
+
+        public List<Vehicle> GetInShopList()
         {
             return m_InShopList;
         }

@@ -8,17 +8,23 @@ namespace Ex03.GarageLogic
 {
     public class FuelEngine : EnergyType
     {
-        public enum eFuelType { Octan95 =1, Octan96, Octan98, Soler }
+        public enum eFuelType
+        {
+            Octan95 = 1,
+            Octan96,
+            Octan98,
+            Soler
+        }
 
+        private readonly float r_MaxFuelAmount;
         private eFuelType m_FuelType;
         private float m_CurrentFuelAmount;
-        private readonly float r_MaxFuelAmount;
         private float m_FuelRatio;
 
         public override void CalculateRatio()
         {
             const float k_Base = 100;
-            m_FuelRatio = (m_CurrentFuelAmount / r_MaxFuelAmount)*k_Base ;
+            m_FuelRatio = (m_CurrentFuelAmount / r_MaxFuelAmount) * k_Base;
         }
 
         public FuelEngine(eFuelType o_TypeOfFuel, float o_CurrentAmount, float o_MaxAmount)
@@ -27,7 +33,6 @@ namespace Ex03.GarageLogic
             m_CurrentFuelAmount = o_CurrentAmount;
             r_MaxFuelAmount = o_MaxAmount;
             CalculateRatio();
-            
         }
 
         public void Refuel(eFuelType i_Type, float i_FuelAmountToAdd)
@@ -41,20 +46,18 @@ namespace Ex03.GarageLogic
                 }
                 else
                 {
-                    
-                    throw new ValueOutOfRangeException(0,r_MaxFuelAmount-m_CurrentFuelAmount, "i_FuelAmountToAdd");
+                    throw new ValueOutOfRangeException(0, r_MaxFuelAmount - m_CurrentFuelAmount, "i_FuelAmountToAdd");
                 }
             }
             else
             {
-                throw new ArgumentException(string.Format("the {0} is inValid For this Vehicle", i_Type), i_Type.ToString());
+                throw new ArgumentException(string.Format("the {0} is invalid For this Vehicle", i_Type), i_Type.ToString());
             }
         }
 
         public override string ToString()
         {
-            return string.Format("Engine Type: FuelEngine{0}\tFuel Type: {1}{0}\tFuel Percentage: {2}%{0}\tCurrent FuelEngine Amount: {3} Liters{0}\tMaximum FuelEngine Amount: {4} Liters{0}", Environment.NewLine, m_FuelType, m_FuelRatio ,m_CurrentFuelAmount, r_MaxFuelAmount);
+            return string.Format("Engine Type: {0}\tFuel Type: {1}{0}\tFuel Percentage: {2}%{0}\tCurrent Fuel Amount: {3} Liters{0}\tMaximum Fuel Amount: {4} Liters{0}", Environment.NewLine, m_FuelType, m_FuelRatio, m_CurrentFuelAmount, r_MaxFuelAmount);
         }
-
     }
 }
