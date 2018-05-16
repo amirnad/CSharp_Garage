@@ -8,7 +8,7 @@ namespace Ex03.GarageLogic
 {
     public class FuelEngine : EnergyType
     {
-        public enum eFuelType { Octan95, Octan96, Octan98, Soler }
+        public enum eFuelType { Octan95 =1, Octan96, Octan98, Soler }
 
         private eFuelType m_FuelType;
         private float m_CurrentFuelAmount;
@@ -17,7 +17,8 @@ namespace Ex03.GarageLogic
 
         public override void CalculateRatio()
         {
-            m_FuelRatio = m_CurrentFuelAmount / r_MaxFuelAmount;
+            const float k_Base = 100;
+            m_FuelRatio = (m_CurrentFuelAmount / r_MaxFuelAmount)*k_Base ;
         }
 
         public FuelEngine(eFuelType o_TypeOfFuel, float o_CurrentAmount, float o_MaxAmount)

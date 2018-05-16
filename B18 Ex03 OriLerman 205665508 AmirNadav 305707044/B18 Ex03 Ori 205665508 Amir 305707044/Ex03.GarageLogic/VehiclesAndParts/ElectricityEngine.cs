@@ -14,7 +14,8 @@ namespace Ex03.GarageLogic
 
         public override void CalculateRatio()
         {
-            m_BatteryLifeRatio = m_CurrentBatteryHoursLeft / r_MaxBatteryHoursLeft;
+            const float k_Base = 100;
+            m_BatteryLifeRatio = (m_CurrentBatteryHoursLeft / r_MaxBatteryHoursLeft) * k_Base;
         }
 
         public ElectricityEngine(float o_CurrentAmount, float o_MaxAmount)
@@ -27,6 +28,8 @@ namespace Ex03.GarageLogic
 
         public void ReCharge(float i_ElectricityHoursToAdd)
         {
+            const float k_MinutesInHour = 60;
+
             if (i_ElectricityHoursToAdd + m_CurrentBatteryHoursLeft <= r_MaxBatteryHoursLeft)
             {
                 m_CurrentBatteryHoursLeft += i_ElectricityHoursToAdd;
@@ -34,7 +37,7 @@ namespace Ex03.GarageLogic
             }
             else
             {
-                throw new ValueOutOfRangeException(0,r_MaxBatteryHoursLeft - m_CurrentBatteryHoursLeft, "i_ElectricityHoursToAdd");
+                throw new ValueOutOfRangeException(0,(r_MaxBatteryHoursLeft - m_CurrentBatteryHoursLeft)* k_MinutesInHour, "i_ElectricityHoursToAdd");
             }
         }
 

@@ -10,9 +10,9 @@ namespace Ex03.ConsoleUI
     public class GarageManagerForConsole
     {
         private const string k_WelcomeMessage = "Hello and welcome to our garage!";
+        private const string k_Border = "=============================================================================";
         private const string k_MenuOptions =
-@"======================================================================
-What would you like to do?
+@"What would you like to do?
     1. Add a new vehicle to the garage.
     2. Show license numbers of vehicles in the garage.
     3. Change a vehicle repair state.
@@ -20,14 +20,13 @@ What would you like to do?
     5. Refuel a gas engined vehicle.
     6. Recharge an electric engined vehicle.
     7. Show full details of a specific vehicle.
-    8. Exit garage
-======================================================================";
+    8. Exit garage";
         private const string k_AddNewVehicleMessage = "Vehicle number {0} was added succesfully!";
         private const string k_VehicleExistsMessage = "Vehicle number {0} is now in repair!";
         private const string k_ChangeStateMessage = "Vehicle number {0} repair state was changed successfuly!";
-        private const string k_FillAirMessage = "Vehicle number {0} tyres are now filled with air!";
-        private const string k_GasTankFullMessage = "Vehicle number {0} gas tank is now full!";
-        private const string k_BatteryChargedMessage = "Vehicle number {0} battery is now fully charged!";
+        private const string k_FillAirMessage = "Vehicle number {0} - tyres are now filled with air!";
+        private const string k_GasTankFullMessage = "Vehicle number {0} - gas tank is now full!";
+        private const string k_BatteryChargedMessage = "Vehicle number {0} - battery is now fully charged!";
         private const string k_PressAnyKeyMessage = "Press any key to continue...";
         private const string k_EnterLicenseNumber = "Please enter a license number: ";
 
@@ -47,37 +46,46 @@ What would you like to do?
                 {
                     showGarageMenu();
                     userInput = Console.ReadLine();
+                    Console.WriteLine(k_Border);
                     interpretUserChoice(userInput, out m_MenuChoice);
                     executeUserChoice(m_MenuChoice);
                 }
                 catch (ArgumentException ex)
                 {
                     Console.WriteLine(ex.Message);
+                    Console.WriteLine(k_Border);
                 }
-                catch (Ex03.GarageLogic.ValueOutOfRangeException ex)
+                catch (ValueOutOfRangeException ex)
                 {
                     Console.WriteLine(ex.Message);
+                    Console.WriteLine(k_Border);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    Console.WriteLine("someThing Went Wrong mate -> but generally wrong");///needs better text
+                    Console.WriteLine(ex.Message);
+                    Console.WriteLine(k_Border);
                 }
 
-                Console.WriteLine(k_PressAnyKeyMessage);
-                Console.ReadLine();
-                Console.Clear();
+                if (!s_LeaveGarage)
+                {
+                    Console.WriteLine(k_PressAnyKeyMessage);
+                    Console.ReadLine();
+                    Console.Clear();
+                }
 
             }
         }
 
         private void showGarageMenu()
         {
+            Console.WriteLine(k_Border);
             Console.WriteLine(k_MenuOptions);
+            Console.WriteLine(k_Border);
         }
         private void interpretUserChoice(string i_UserChoice, out eUserChoice o_Choice)
         {
             o_Choice = (eUserChoice)Enum.Parse(typeof(eUserChoice), i_UserChoice);
-            if(o_Choice < eUserChoice.AddVehicle || o_Choice > eUserChoice.Exit)
+            if (o_Choice < eUserChoice.AddVehicle || o_Choice > eUserChoice.Exit)
             {
                 throw new ArgumentException("Invalid input to menu!");
             }
@@ -128,7 +136,7 @@ What would you like to do?
             {
                 Console.WriteLine("Vehicle number {0} doesn't exist in the system. Please enter the following details:", licenseNumber);
                 readVehicleDetails(out userVehicleDetails);
-                userVehicleDetails.m_LicensePlate = licenseNumber;
+                userVehicleDetails.LicenseNumber = licenseNumber;
                 AddNewVehicle(userVehicleDetails);
                 finishTreatmentMessage.AppendFormat(k_AddNewVehicleMessage, licenseNumber);
             }
@@ -137,13 +145,14 @@ What would you like to do?
                 ChangeVehicleRepairState(licenseNumber, eRepairState.InShop);
                 finishTreatmentMessage.AppendFormat(k_VehicleExistsMessage, licenseNumber);
             }
-
+            Console.WriteLine(k_Border);
             Console.WriteLine(finishTreatmentMessage);
         }
         private void ShowVehiclesLicenseNumbers()
         {
             eRepairState howToFilter;
             howToFilter = readFilterChoice();
+            Console.WriteLine(k_Border);
             ShowLicenseNumberByFilter(howToFilter);
         }
         private void ChangeVehicleState()
@@ -155,6 +164,8 @@ What would you like to do?
             ChangeVehicleRepairState(licenseNumber, newRepairState);
 
             Console.WriteLine(k_ChangeStateMessage, licenseNumber);
+            Console.WriteLine(k_Border);
+
         }
         private void FillAir()
         {
@@ -163,6 +174,7 @@ What would you like to do?
             FillTyrePressure(licenseNumber);
 
             Console.WriteLine(k_FillAirMessage, licenseNumber);
+            Console.WriteLine(k_Border);
 
 
         }
@@ -176,6 +188,7 @@ What would you like to do?
             RefuelGasVehicle(licenseNumber, fuelType, litersToAdd);
 
             Console.WriteLine(k_GasTankFullMessage, licenseNumber);
+            Console.WriteLine(k_Border);
 
         }
         private void RechargeVehicle()
@@ -186,6 +199,8 @@ What would you like to do?
             RechargeElectricVehicle(licenseNumber, minutesToAdd);
 
             Console.WriteLine(k_BatteryChargedMessage, licenseNumber);
+            Console.WriteLine(k_Border);
+
         }
         private void ShowVehicleFullDetails()
         {
@@ -199,112 +214,278 @@ What would you like to do?
             string licenseNumber;
             Console.Write(k_EnterLicenseNumber);
             licenseNumber = Console.ReadLine();
+            if (licenseNumber.Length == 0)
+            {
+                throw new FormatException("License Number mus be filled!");
+            }
             return licenseNumber;
         }
-        private void readVehicleDetails(out VehicleInitialDetails o_UserVehicleDetails)
+        private void readVehicleDetails(out VehicleInitialDetails i_UserVehicleDetails)
         {
-            o_UserVehicleDetails = new VehicleInitialDetails();
-            List<VehicleInitialDetails.WheelsListInfo> vehicleWheels = new List<VehicleInitialDetails.WheelsListInfo>();
+            i_UserVehicleDetails = new VehicleInitialDetails();
+            OwnerDetails vehicleOwner;
+            eSupportedVehicles vehicleType;
+            string vehicleModel;
+            EnergyTypeInfo engineType;
+            CarInfo carInfo;
+            MotorcycleInfo motorcycleInfo;
+            TruckInfo truckInfo;
+            WheelInfo wheelInfo;
 
+            vehicleOwner = readOwnerDetails();
+            vehicleType = readVehicleType();
+            vehicleModel = readVehicleModel();
+            engineType = readEngineInfo(vehicleType);
+            switch (vehicleType)
+            {
+                case eSupportedVehicles.Car:
+                    carInfo = readCar();
+                    i_UserVehicleDetails.CarDetails = carInfo;
+                    break;
+                case eSupportedVehicles.MotorCycle:
+                    motorcycleInfo = readMotorcycle();
+                    i_UserVehicleDetails.MotorcycleDetails = motorcycleInfo;
+                    break;
+                case eSupportedVehicles.Truck:
+                    truckInfo = readTruck();
+                    i_UserVehicleDetails.TruckDetails = truckInfo;
+                    break;
+            }
+            wheelInfo = readWheel();
+
+            i_UserVehicleDetails.OwnerDetails = vehicleOwner;
+            i_UserVehicleDetails.VehicleType = vehicleType;
+            i_UserVehicleDetails.Model = vehicleModel;
+            i_UserVehicleDetails.EngineType = engineType;
+            i_UserVehicleDetails.WheelDetails = wheelInfo;
+
+
+        }
+
+
+
+
+        private OwnerDetails readOwnerDetails()
+        {
+            OwnerDetails vehicleOwner;
+            string ownerName;
+            string ownerPhoneNumber;
 
             Console.Write("\tOwner's Name: ");
-            o_UserVehicleDetails.m_ownerInfo.m_OwnerName = Console.ReadLine();
+            ownerName = Console.ReadLine();
             Console.Write("\tOwner's Phone Number: ");
-            o_UserVehicleDetails.m_ownerInfo.m_OwnerPhone = Console.ReadLine();
+            ownerPhoneNumber = Console.ReadLine();
+
+            if (ownerName.Length == 0 || ownerPhoneNumber.Length == 0)
+            {
+                throw new FormatException("Owner's Name and Phone must be filled!");
+            }
+
+            vehicleOwner = new OwnerDetails(ownerName, ownerPhoneNumber);
+            return vehicleOwner;
+
+        }
+        private eSupportedVehicles readVehicleType()
+        {
+            eSupportedVehicles vehicleType;
 
             Console.Write("\tVehicle Type: (1)Car , (2)Truck, (3)Motorcycle{0}\t", Environment.NewLine);
-            o_UserVehicleDetails.m_vehicleUsersChoice = (Factory.eSupportedVehicles)Enum.Parse(typeof(Factory.eSupportedVehicles), Console.ReadLine());
+            vehicleType = (eSupportedVehicles)Enum.Parse(typeof(eSupportedVehicles), Console.ReadLine());
+            if (!Enum.IsDefined(typeof(eSupportedVehicles), vehicleType))
+            {
+                throw new ArgumentException("Undefined Vehicle Type");
+            }
+            return vehicleType;
+
+        }
+        private string readVehicleModel()
+        {
+            string model;
 
             Console.Write("\tVehicle Model: ");
-            o_UserVehicleDetails.m_Model = Console.ReadLine();
-
-            if (o_UserVehicleDetails.m_vehicleUsersChoice == Factory.eSupportedVehicles.Car || o_UserVehicleDetails.m_vehicleUsersChoice == Factory.eSupportedVehicles.MotorCycle)
+            model = Console.ReadLine();
+            if (model.Length == 0)
             {
-                Console.Write("\tEngine Type: (1)Electric Engine , (2)Fuel Engine{0}\t", Environment.NewLine);
-                o_UserVehicleDetails.m_EnergyTypeInfo.engine = (Factory.eSupportedEngines)Enum.Parse(typeof(Factory.eSupportedEngines), Console.ReadLine());
+                throw new FormatException("Vehicle Manufacturer must be filled!");
             }
-            else
-            {
-                o_UserVehicleDetails.m_EnergyTypeInfo.engine = Factory.eSupportedEngines.Fuel;
-            }
+            return model;
+        }
+        private EnergyTypeInfo readEngineInfo(eSupportedVehicles i_VehicleType)
+        {
+            EnergyTypeInfo engine;
+            eSupportedEngines engineType = eSupportedEngines.Fuel;    //just a default value -- > always being checked!
+            float remainingEnergy = 0;  //just default value
 
-            if (o_UserVehicleDetails.m_EnergyTypeInfo.engine == Factory.eSupportedEngines.Fuel)
+            switch (i_VehicleType)
             {
-                Console.Write("\tRemaining Fuel (in liters): ");
-                o_UserVehicleDetails.m_EnergyTypeInfo.m_CurrentAmountEnergy = float.Parse(Console.ReadLine());
-            }
-            else
-            {
-                Console.Write("\tRemaining Battery Time (in hours): ");
-                o_UserVehicleDetails.m_EnergyTypeInfo.m_CurrentAmountEnergy = float.Parse(Console.ReadLine());
-            }
-
-            switch (o_UserVehicleDetails.m_vehicleUsersChoice)
-            {
-                case Factory.eSupportedVehicles.Car:
-                    Console.Write("\tColor: (1)Gray, (2)Blue, (3)White, (4)Black{0}\t", Environment.NewLine);
-                    o_UserVehicleDetails.m_CarInfo.m_Color = (Car.eCarColors)Enum.Parse(typeof(Car.eCarColors), Console.ReadLine());
-
-                    Console.Write("\tNumber of Doors: 2, 3, 4, 5{0}\t", Environment.NewLine);
-                    o_UserVehicleDetails.m_CarInfo.m_NumberOfDoors = (Car.eNumberOfDoors)Enum.Parse(typeof(Car.eNumberOfDoors), Console.ReadLine());
-
-                    vehicleWheels.Capacity = Vehicle.k_CarWheels;
+                case eSupportedVehicles.Car:
+                case eSupportedVehicles.MotorCycle:
+                    Console.Write("\tEngine Type: (1)Electric Engine , (2)Fuel Engine{0}\t", Environment.NewLine);
+                    engineType = (eSupportedEngines)Enum.Parse(typeof(eSupportedEngines), Console.ReadLine());
                     break;
-                case Factory.eSupportedVehicles.MotorCycle:
-                    Console.Write("\tLicense Type: (1)A1, (2)A2, (3)A2, (4)B1, (5)B2{0}\t", Environment.NewLine);
-                    o_UserVehicleDetails.m_MotorCycleInfo.m_licenceType = (Motorcycle.eLicenseTypes)Enum.Parse(typeof(Motorcycle.eLicenseTypes), Console.ReadLine());
-                    Console.Write("\tEngine Volume (in cc): ");
-                    o_UserVehicleDetails.m_MotorCycleInfo.m_EngineVolume = int.Parse(Console.ReadLine());
-
-                    vehicleWheels.Capacity = Vehicle.k_MotorcycleWheels;
+                case eSupportedVehicles.Truck:
+                    engineType = eSupportedEngines.Fuel;
                     break;
-                case Factory.eSupportedVehicles.Truck:
-                    Truck.eIsCooled isCooled;
-                    Console.Write("\tCooled Trunk? (0)No, (1)Yes{0}\t", Environment.NewLine);
-                    isCooled = (Truck.eIsCooled)Enum.Parse(typeof(Truck.eIsCooled), Console.ReadLine());
-                    switch (isCooled)
+            }
+
+            if (!Enum.IsDefined(typeof(eSupportedEngines), engineType))
+            {
+                throw new ArgumentException("Undefined Type of Engine");
+            }
+
+            switch (engineType)
+            {
+                case eSupportedEngines.Fuel:
+                    Console.Write("\tRemaining Fuel (in liters): ");
+                    remainingEnergy = float.Parse(Console.ReadLine());
+                    break;
+                case eSupportedEngines.Electric:
+                    Console.Write("\tRemaining Battery Time (in hours): ");
+                    remainingEnergy = float.Parse(Console.ReadLine());
+                    break;
+            }
+
+            checkValidityOfRemainingEnergy(i_VehicleType, engineType, remainingEnergy);
+
+            engine = new EnergyTypeInfo(remainingEnergy, engineType);
+
+            return engine;
+        }
+        private void checkValidityOfRemainingEnergy(eSupportedVehicles i_VehicleType, eSupportedEngines i_EngineType, float i_RemainingEnergy)
+        {
+            switch (i_VehicleType)
+            {
+                case eSupportedVehicles.Car:
+                    if (i_EngineType == eSupportedEngines.Fuel && i_RemainingEnergy > Car.k_MaxCarFuel)
                     {
-                        case Truck.eIsCooled.No:
-                            o_UserVehicleDetails.m_TruckInfo.m_TruckCooled = false;
-                            break;
-                        case Truck.eIsCooled.Yes:
-                            o_UserVehicleDetails.m_TruckInfo.m_TruckCooled = true;
-                            break;
-                        default:
-                            throw new ArgumentException("Truck trunk must be cooled or not cooled! invalid choice");
+                        throw new ValueOutOfRangeException(0f, Car.k_MaxCarFuel, "FuelEngine.m_CurrentFuelAmount");
                     }
-
-                    Console.Write("\tTrunk Volume: ");
-                    o_UserVehicleDetails.m_TruckInfo.m_TrunkVolume = float.Parse(Console.ReadLine());
-
-                    vehicleWheels.Capacity = Vehicle.k_TruckWheels;
+                    else if (i_EngineType == eSupportedEngines.Electric && i_RemainingEnergy > Car.k_MaxCarElectricHours)
+                    {
+                        throw new ValueOutOfRangeException(0f, Car.k_MaxCarElectricHours, "ElectricityEngine.m_CurrentBatteryHoursLeft");
+                    }
                     break;
-
+                case eSupportedVehicles.MotorCycle:
+                    if (i_EngineType == eSupportedEngines.Fuel && i_RemainingEnergy > Motorcycle.k_MaxMotorcycleFuel)
+                    {
+                        throw new ValueOutOfRangeException(0f, Motorcycle.k_MaxMotorcycleFuel, "FuelEngine.m_CurrentFuelAmount");
+                    }
+                    else if (i_EngineType == eSupportedEngines.Electric && i_RemainingEnergy > Motorcycle.k_MaxMotorcycleElectricHours)
+                    {
+                        throw new ValueOutOfRangeException(0f, Motorcycle.k_MaxMotorcycleElectricHours, "ElectricityEngine.m_CurrentBatteryHoursLeft");
+                    }
+                    break;
+                case eSupportedVehicles.Truck:
+                    if (i_RemainingEnergy > Truck.k_MaxTruckFuel)
+                    {
+                        throw new ValueOutOfRangeException(0f, Truck.k_MaxTruckFuel, "FuelEngine.m_CurrentFuelAmount");
+                    }
+                    break;
             }
+
+        }
+        private CarInfo readCar()
+        {
+            CarInfo returnedCar;
+            Car.eCarColors carColor;
+            Car.eNumberOfDoors numberOfDoors;
+
+            Console.Write("\tColor: (1)Gray, (2)Blue, (3)White, (4)Black{0}\t", Environment.NewLine);
+            carColor = (Car.eCarColors)Enum.Parse(typeof(Car.eCarColors), Console.ReadLine());
+            if (!Enum.IsDefined(typeof(Car.eCarColors), carColor))
+            {
+                throw new ArgumentException("Undefined Car Color");
+            }
+            Console.Write("\tNumber of Doors: 2, 3, 4, 5{0}\t", Environment.NewLine);
+            numberOfDoors = (Car.eNumberOfDoors)Enum.Parse(typeof(Car.eNumberOfDoors), Console.ReadLine());
+            if (!Enum.IsDefined(typeof(Car.eNumberOfDoors), numberOfDoors))
+            {
+                throw new ArgumentException("Undefined Number of Car Doors");
+            }
+            returnedCar = new CarInfo(carColor, numberOfDoors);
+
+            return returnedCar;
+        }
+        private MotorcycleInfo readMotorcycle()
+        {
+            MotorcycleInfo returnedMotorcycle;
+            Motorcycle.eLicenseTypes licenseType;
+            int engineCC;
+
+            Console.Write("\tLicense Type: (1)A1, (2)A2, (3)A2, (4)B1, (5)B2{0}\t", Environment.NewLine);
+            licenseType = (Motorcycle.eLicenseTypes)Enum.Parse(typeof(Motorcycle.eLicenseTypes), Console.ReadLine());
+            if (!Enum.IsDefined(typeof(Motorcycle.eLicenseTypes), licenseType))
+            {
+                throw new ArgumentException("Undefined Motorcycle License");
+            }
+            Console.Write("\tEngine Volume (in cc): ");
+            engineCC = int.Parse(Console.ReadLine());
+
+            returnedMotorcycle = new MotorcycleInfo(licenseType, engineCC);
+            return returnedMotorcycle;
+        }
+        private TruckInfo readTruck()
+        {
+            TruckInfo returnedTruck;
+            Truck.eIsCooled coolingOptions;
+            bool isCooled = false;      //only default
+            float trunkCapacity;
+
+
+            Console.Write("\tCooled Trunk? (0)No, (1)Yes{0}\t", Environment.NewLine);
+            coolingOptions = (Truck.eIsCooled)Enum.Parse(typeof(Truck.eIsCooled), Console.ReadLine());
+            switch (coolingOptions)
+            {
+                case Truck.eIsCooled.No:
+                    isCooled = false;
+                    break;
+                case Truck.eIsCooled.Yes:
+                    isCooled = true;
+                    break;
+                default:
+                    throw new ArgumentException("Truck trunk must be cooled or not cooled! invalid choice");
+            }
+
+            Console.Write("\tTrunk Volume: ");
+            trunkCapacity = float.Parse(Console.ReadLine());
+
+            returnedTruck = new TruckInfo(isCooled, trunkCapacity);
+            return returnedTruck;
+        }
+        private WheelInfo readWheel()
+        {
+            WheelInfo returnedWheel;
+            string wheelManufacturer = string.Empty;
+            float wheelMaximumPsi;
+            float wheelCurrentPsi;
 
             Console.Write("\tWheels Manufacturer: ");
-            o_UserVehicleDetails.m_WheelInfo.m_TyreManufacturer = Console.ReadLine();
-            Console.Write("\tWheel Maximum Psi: ");
-            o_UserVehicleDetails.m_WheelInfo.m_TyreMaxPsi = float.Parse(Console.ReadLine());
-            for (int i = 1; i <= vehicleWheels.Capacity; i++)
+            wheelManufacturer = Console.ReadLine();
+            if (wheelManufacturer.Length == 0)
             {
-                float currentPressure;
-                Console.Write("\tWheel ({0}) Current Psi: ", i);
-                currentPressure = float.Parse(Console.ReadLine());
-                vehicleWheels.Add(new VehicleInitialDetails.WheelsListInfo(
-                                                        o_UserVehicleDetails.m_WheelInfo.m_TyreManufacturer,
-                                                        currentPressure,
-                                                        o_UserVehicleDetails.m_WheelInfo.m_TyreMaxPsi));
+                throw new FormatException("Tyre Manufacturer must be filled!");
             }
+            Console.Write("\tWheel Maximum Psi: ");
+            wheelMaximumPsi = float.Parse(Console.ReadLine());
+            Console.Write("\tWheel Current Psi: ");
+            wheelCurrentPsi = float.Parse(Console.ReadLine());
 
-            o_UserVehicleDetails.m_AllWheelsInfo = vehicleWheels;
+            returnedWheel = new WheelInfo(wheelManufacturer, wheelMaximumPsi, wheelCurrentPsi);
+            return returnedWheel;
         }
+
+
+
         private eRepairState readFilterChoice()
         {
             eRepairState requestedState;
             Console.WriteLine("How would you like to filter the results?");
             Console.WriteLine("(0)Show All, (1)In Repair, (2)Fixed, (3)Payed");
             requestedState = (eRepairState)Enum.Parse(typeof(eRepairState), Console.ReadLine());
+            if (!Enum.IsDefined(typeof(eRepairState), requestedState))
+            {
+                throw new ArgumentException("Choose a Valid Filtering Option");
+            }
             return requestedState;
         }
         private void readStateChangeData(out string o_LicenseNumber, out eRepairState o_NewState)
@@ -312,13 +493,20 @@ What would you like to do?
             o_LicenseNumber = readLicenseNumber();
             Console.WriteLine("What is the vehicle new state? (1)In Repair, (2)Fixed, (3)Payed");
             o_NewState = (eRepairState)Enum.Parse(typeof(eRepairState), Console.ReadLine());
-            
+            if (!Enum.IsDefined(typeof(eRepairState), o_NewState))
+            {
+                throw new ArgumentException("Choose a Valid New Repair State");
+            }
         }
         private void readRefulingData(out string o_LicenseNumber, out FuelEngine.eFuelType o_FuelType, out float o_LitersToAdd)
         {
             o_LicenseNumber = readLicenseNumber();
-            Console.Write("Enter fuel type: ");
+            Console.Write("Enter fuel type: (1)Octan 95, (2)Octan 96, (3)Octan 98, (4)Soler ");
             o_FuelType = (FuelEngine.eFuelType)Enum.Parse(typeof(FuelEngine.eFuelType), Console.ReadLine());
+            if (!Enum.IsDefined(typeof(FuelEngine.eFuelType), o_FuelType))
+            {
+                throw new ArgumentException("Choose a Valid Type of Fuel");
+            }
             Console.Write("Enter amount to add (in liters): ");
             o_LitersToAdd = float.Parse(Console.ReadLine());
 
@@ -393,7 +581,7 @@ What would you like to do?
             {
                 licenseNumbersToPrint.AppendFormat("There are no license numbers to show at the moment!{0}", Environment.NewLine);
             }
-
+            licenseNumbersToPrint.AppendLine(k_Border);
             Console.WriteLine(licenseNumbersToPrint);
         }
         private void appendToStringFromList(List<Vehicle> i_VehiclesList, ref StringBuilder o_licenseNumbers)
@@ -430,7 +618,7 @@ What would you like to do?
             else
             {
                 //exception
-                throw new ArgumentException(string.Format("The refueld car: {0} should be only fuel (and not electric) ", io_LicenseNumber), io_LicenseNumber);
+                throw new ArgumentException(string.Format("The refueld car {0} is an Electric Vehicle, try to Recharge instead!", io_LicenseNumber));
             }
 
         }
@@ -446,7 +634,7 @@ What would you like to do?
             }
             else
             {
-                throw new ArgumentException(string.Format("The recharged car: {0} should be only electric (and not fuel) ", io_LicenseNumber), io_LicenseNumber);
+                throw new ArgumentException(string.Format("The recharged car {0} is powered by gas. Try to refuel instead!{1}", io_LicenseNumber));
             }
         }
         public void ShowAllDataOnVehicle(string io_LicenseNumber)

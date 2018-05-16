@@ -16,6 +16,10 @@ namespace Ex03.GarageLogic
         {
             get { return m_CurrentTyrePsi; }
         }
+        public float MaximumPressure
+        {
+            get { return r_MaxTyrePsi; }
+        }
 
         internal void fillAir(float i_amountOfAir)
         {
@@ -33,6 +37,13 @@ namespace Ex03.GarageLogic
             r_TyreManufacturer = i_Manufacturer;
             r_MaxTyrePsi = i_MaxPsi;
             m_CurrentTyrePsi = i_CurrentPsi;
+        }
+
+        public Wheel(WheelInfo i_Wheel)
+        {
+            r_TyreManufacturer = i_Wheel.Brand;
+            r_MaxTyrePsi = i_Wheel.MaxTyrePressure;
+            m_CurrentTyrePsi = i_Wheel.CurrentTyrePressure;
         }
 
         public override string ToString()

@@ -35,30 +35,30 @@ namespace Ex03.ConsoleUI
 
         }
 
-        public static VehicleInitialDetails CreateNewSetup()
-        {
-            VehicleInitialDetails setup = new VehicleInitialDetails();
-            List<VehicleInitialDetails.WheelsListInfo> myWheels = new List<VehicleInitialDetails.WheelsListInfo>();
+        //public static VehicleInitialDetails CreateNewSetup()
+        //{
+        //    VehicleInitialDetails setup = new VehicleInitialDetails();
+        //    List<VehicleInitialDetails.WheelsListInfo> myWheels = new List<VehicleInitialDetails.WheelsListInfo>();
 
-            myWheels.Add(new VehicleInitialDetails.WheelsListInfo("pirelli", 14f, 32f));
-            myWheels.Add(new VehicleInitialDetails.WheelsListInfo("pirelli", 14f, 32f));
-            myWheels.Add(new VehicleInitialDetails.WheelsListInfo("pirelli", 14f, 32f));
-            myWheels.Add(new VehicleInitialDetails.WheelsListInfo("pirelli", 14f, 32f));
+        //    myWheels.Add(new VehicleInitialDetails.WheelsListInfo("pirelli", 14f, 32f));
+        //    myWheels.Add(new VehicleInitialDetails.WheelsListInfo("pirelli", 14f, 32f));
+        //    myWheels.Add(new VehicleInitialDetails.WheelsListInfo("pirelli", 14f, 32f));
+        //    myWheels.Add(new VehicleInitialDetails.WheelsListInfo("pirelli", 14f, 32f));
 
-            setup.m_CarInfo.m_Color = Car.eCarColors.Black;
-            setup.m_CarInfo.m_NumberOfDoors = Car.eNumberOfDoors.Five;
-            setup.m_EnergyTypeInfo.engine = Factory.eSupportedEngines.Fuel;
-            setup.m_LicensePlate = "12221C";
-            setup.m_Model = "323";
-            setup.m_EnergyTypeInfo.m_CurrentAmountEnergy = 20f;
-            setup.m_ownerInfo.m_OwnerName = "ori";
-            setup.m_ownerInfo.m_OwnerPhone = "0523221702";
-            setup.m_AllWheelsInfo = myWheels;
+        //    setup.m_CarInfo.m_Color = Car.eCarColors.Black;
+        //    setup.m_CarInfo.m_NumberOfDoors = Car.eNumberOfDoors.Five;
+        //    setup.m_EnergyTypeInfo.engine = Factory.eSupportedEngines.Fuel;
+        //    setup.m_LicensePlate = "12221C";
+        //    setup.m_Model = "323";
+        //    setup.m_EnergyTypeInfo.m_CurrentAmountEnergy = 20f;
+        //    setup.m_ownerInfo.m_OwnerName = "ori";
+        //    setup.m_ownerInfo.m_OwnerPhone = "0523221702";
+        //    setup.m_AllWheelsInfo = myWheels;
 
 
 
-            return setup;
+        //    return setup;
 
-        }
+        //}
     }
 }

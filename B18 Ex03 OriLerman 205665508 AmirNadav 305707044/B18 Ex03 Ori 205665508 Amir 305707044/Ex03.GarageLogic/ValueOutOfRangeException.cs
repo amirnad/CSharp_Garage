@@ -20,7 +20,7 @@ namespace Ex03.GarageLogic
             m_MaxValue = i_MaxValue;
             m_MinValue = i_MinValue;
 
-            string Message = string.Format( "the input range for {2} is between {0} and {1}",i_MinValue,i_MaxValue,i_paramName);
+            m_Message = string.Format( "the input range for {2} is between {0} and {1}",i_MinValue,i_MaxValue,i_paramName);
         }
 
         public override string Message

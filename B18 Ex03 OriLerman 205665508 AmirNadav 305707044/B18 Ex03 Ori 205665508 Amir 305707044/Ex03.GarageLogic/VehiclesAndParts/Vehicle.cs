@@ -7,26 +7,30 @@ using System.Threading.Tasks;
 namespace Ex03.GarageLogic
 {
     public enum eRepairState { AllStates, InShop, Fixed, Payed }
+    public enum eVehicleWheels { MotorcycleWheels = 2, CarWheels = 4, TruckWheels = 12 };
     public abstract class Vehicle
     {
-        public static readonly int k_CarWheels = 4;
-        public static readonly int k_MotorcycleWheels = 2;
-        public static readonly int k_TruckWheels = 12;
+        //public static readonly int k_CarWheels = 4;
+        //public static readonly int k_MotorcycleWheels = 2;
+        //public static readonly int k_TruckWheels = 12;
 
-        protected readonly string m_Model;
-        protected readonly string m_LicenseNumber;
+        private readonly string m_Model;
+        private readonly string m_LicenseNumber;
+        private readonly eVehicleWheels m_VehicleWheels;
+        private eRepairState m_RepairState = eRepairState.InShop;
         //  private float m_EnergyRatio = 0;
         protected List<Wheel> m_Wheels = null;//initailizes in son
         protected OwnerDetails m_OwnerDetails;
-        private eRepairState m_RepairState = eRepairState.InShop;
         protected EnergyType m_EnergyType;
 
-        public Vehicle(string io_Model, string io_LicenseNumber, OwnerDetails io_OwnerDetails, List<Wheel> io_Wheels)
+        public Vehicle(string io_Model, string io_LicenseNumber, OwnerDetails io_OwnerDetails, eVehicleWheels io_NumberOfWheels, List<Wheel> io_Wheels, EnergyType i_Engine)
         {
             m_Model = io_Model;
             m_LicenseNumber = io_LicenseNumber;
             m_OwnerDetails = io_OwnerDetails;
+            m_VehicleWheels = io_NumberOfWheels;
             m_Wheels = io_Wheels;
+            m_EnergyType = i_Engine;
         }
         //protected float EnergyRatio
         //{
@@ -54,9 +58,9 @@ namespace Ex03.GarageLogic
         }
         public void FillAirToMax()
         {
-            float maxVehiclePsi = VehicleMaxPressure;
             foreach (Wheel wheel in m_Wheels)
             {
+                float maxVehiclePsi = wheel.MaximumPressure;
                 float currentWheelPsi = wheel.CurrentPressure;
                 wheel.fillAir(maxVehiclePsi - currentWheelPsi);
 
@@ -114,8 +118,8 @@ namespace Ex03.GarageLogic
     //        setup.m_LicensePlate = "12221C";
     //        setup.m_Model = "323";
     //        setup.m_EnergyTypeInfo.m_CurrentAmountEnergy = 6;
-    //        setup.m_ownerInfo.m_OwnerName = "ori";
-    //        setup.m_ownerInfo.m_OwnerPhone = "0523221702";
+    //        setup.m_OwnerDetails.m_OwnerName = "ori";
+    //        setup.m_OwnerDetails.m_OwnerPhone = "0523221702";
     //        setup.m_AllWheelsInfo = myWheels;
     //        return setup;
 
