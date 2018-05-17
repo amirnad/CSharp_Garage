@@ -21,7 +21,7 @@ namespace Ex03.GarageLogic
         TruckWheels = 12
     }
 
-    public abstract class Vehicle
+    public abstract class Vehicle       
     {
         private readonly string m_Model;
         private readonly string m_LicenseNumber;
